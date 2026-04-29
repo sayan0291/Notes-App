@@ -1,0 +1,46 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Angkor&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-roboto: "Angkor", sans-serif;
+
+
+}
+
+@layer base {
+
+  body{
+    @apply bg-blue-100/30;
+  }
+
+  h1 {
+    @apply font-roboto text-[#AB8BFF] text-[clamp(20px,7vw,30px)];
+  }
+}
+
+@utility fl-ct{
+  @apply flex justify-center items-center;
+}
+
+@utility fl-bt{
+  @apply flex justify-between items-center;
+}
+
+@utility fl-jt-ct{
+  @apply flex justify-center p-5;
+}
+
+@layer components{
+    .navButton{
+        @apply font-mono text-base text-zinc-300 hover:text-zinc-400 hover:duration-300 hover:skew-1;
+    }
+
+    .mobButton{
+        @apply font-mono text-base  text-gray-500 hover:text-gray-400 hover:duration-300;
+    }
+
+    .card{
+      @apply font-sans text-lg
+    }
+}
