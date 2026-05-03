@@ -1,21 +1,19 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Angkor&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Angkor&family=Saira+Stencil&family=Goldman&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-roboto: "Angkor", sans-serif;
-
-
+  --font-angkor: "Angkor", sans-serif;
+  --font-saira: "Saira Stencil", sans-serif;
+  --font-goldman: "Goldman", sans-serif;
 }
 
 @layer base {
 
-  body{
-    @apply bg-blue-100/30;
-  }
-
   h1 {
-    @apply font-roboto text-[#AB8BFF] text-[clamp(20px,7vw,30px)];
+    @apply font-angkor tracking-tight text-[#AB8BFF] text-[clamp(17px,7vw,25px)];
+  }
+  h4{
+    @apply font-saira;
   }
 }
 
@@ -28,19 +26,86 @@
 }
 
 @utility fl-jt-ct{
-  @apply flex justify-center p-5;
+  @apply flex justify-center items-center p-5;
+}
+
+@utility fl-it-ct{
+  @apply flex items-center;
 }
 
 @layer components{
-    .navButton{
-        @apply font-mono text-base text-zinc-300 hover:text-zinc-400 hover:duration-300 hover:skew-1;
+    .gradient-bg {
+        @apply bg-gradient-to-l from-blue-100/50 via-violet-100 to-blue-100/40;
+    }
+    .nav-button{
+        @apply font-goldman font-thin tracking-wider text-[clamp(10px,5vw,15px)] text-slate-500;
     }
 
-    .mobButton{
-        @apply font-mono text-base  text-gray-500 hover:text-gray-400 hover:duration-300;
+    .mob-view{
+      @apply absolute top-0 right-0 w-2/5 h-screen bg-gray-400 transition-transform duration-700 ease-in-out;
+
+      & ul{
+        @apply flex flex-col gap-3 px-10 py-15;
+      }
     }
 
-    .card{
-      @apply font-sans text-lg
+    .desk-view{
+      @apply relative hidden md:flex gap-5;
+
+      & ul{
+        @apply flex gap-5;
+      }
+    }
+
+    .menu-icon{
+        @apply text-gray-600;
+    }
+
+    .dash-icon{
+        @apply text-gray-500 md:h-7 md:w-7 h-5 w-5;
+    }
+
+    .preview-show{
+      @apply bg-gray-400 p-2 my-5 ml-3 mr-10 rounded shadow-xl;
+    }
+
+    .search{
+      @apply border-2 rounded border-slate-400 w-1/2;
+
+      & div{
+        @apply fl-it-ct gap-3;
+      }
+
+      & input{
+        @apply w-full outline-none;
+      }
+    }
+
+    .document-card{
+      @apply p-2 rounded-md text-gray-100/80 font-serif shadow bg-[rgba(0,0,0,0.5)];
+    }
+
+    .notesadd{
+      @apply fl-ct flex-col w-full h-full gap-5;
+
+      & div{
+        @apply border-1 w-1/2 rounded-md bg-gray-200;
+      }
+
+      & .title{
+        @apply text-blue-100/50 py-5 px-3;
+
+        & input{
+          @apply outline-none text-gray-900 w-full;
+        }
+      }
+      
+      & .description{
+        @apply text-blue-100/50 p-2;
+
+        & textarea{
+          @apply outline-none text-gray-900 w-full h-50;
+        }
+      }
     }
 }
