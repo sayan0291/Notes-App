@@ -1,9 +1,10 @@
 import { Search,NotebookPen,Folder,Plus,TriangleAlert,OctagonAlert  } from "lucide-react";
 import {useState,useForm, useEffect} from "react"
+import {Link} from "react-router-dom"
 import Button from "../components/ui/Buttons";
 import NotesAdd from "../components/ui/NotesAdd";
 import { ReadData } from "../Form/FormHandler";
-import { ErrorCard } from "../components/ui/NotesDisplay";
+import { ErrorCard,Card } from "../components/ui/NotesDisplay";
 
 const SearchInput = () => {
     return(
@@ -22,16 +23,12 @@ const Notes = () => {
     const [showSection,setShowSection] = useState(false)
     const [data,setData] = useState([])
 
-    const handleClick = () => {
-        setShowSection(true)
-    }
-
     useEffect(() => {
         ReadData(setData);
     },[])
 
     return(
-        <div className='fl-jt-ct flex-col w-full h-screen gradient-bg'>
+        <div className='fl-jt-ct flex-col gradient-bg'>
             <div className='fl-bt w-5/7'>
                 <SearchInput />
             </div>
@@ -44,29 +41,26 @@ const Notes = () => {
                 </Button>
                 <div className="fl-it-ct h-10 document-card gap-2">
                     <Folder />
-                    <Button varient="transparent" onClick={handleClick}>
+                    <Button varient="folderButtn" onClick={() => setShowSection(true)}>
                         <Plus />
                     </Button>
                 </div>
             </div>
             {showSection && <NotesAdd setShowSection={setShowSection} />}
-            <div className="w-full h-full">
+            <div className="w-5/7 h-full">
                 {data == null ? (
                             <ErrorCard type="error" cardtitle="error!!!" carddescription="Something Went Wrong" >
                                 <TriangleAlert color="#ff0f0f" className="text-yellow-300" strokeWidth={2} />
                             </ErrorCard>
-                        ) : data.length === 0 ? (
-                                <div className="bg-white">
-                                    {data.map((obj,index) => (
-                                        <div className="text-black" key={obj.id}>
-                                            <p>{obj.title}</p>
-                                        </div>
-                                    ))}
-                                </div>) : (
-                                    <ErrorCard type="nothing" cardtitle="Oh no!" carddescription="You dont have any notes here"  >
-                                        <OctagonAlert className="text-yellow-300" strokeWidth={2.5} />
-                                    </ErrorCard>
-                                )
+                        ) : data.length !== 0 ? (
+                                data.map((obj,index) =>
+                                    <Card key={obj.id} notesObj={obj} />
+                            )
+                        ) : (
+                            <ErrorCard type="nothing" cardtitle="Oh no!" carddescription="You dont have any notes here"  >
+                                <OctagonAlert className="text-yellow-300" strokeWidth={2.5} />
+                            </ErrorCard>
+                        )
                     }
             </div>
         </div>

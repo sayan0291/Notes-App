@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React from "react";
 import Button from "../ui/Buttons.jsx";
 import { TextAlignEnd,X } from 'lucide-react';
 import { NavLink } from "react-router-dom";
@@ -26,7 +26,7 @@ const NavView = ({classname,setMenuOpen=false}) => {
 }
 
 export default function Navbar() {
-    const [menuOpen, setMenuOpen] = useState(false);
+    const [menuOpen, setMenuOpen] = React.useState(false);
 
     return (
         <div className="fl-jt-ct shadow-md border border-gray-200 bg-blue-100/50">

@@ -1,7 +1,7 @@
-export const Home = () => {
+const FirstSection = () => {
     return(
-            <div className="w-screen h-[80vh] relative gradient-bg">
-                <div className="fl-ct flex-col w-[100vw] h-full">
+        <>
+            <div className="fl-ct flex-col h-[80vh]">
                     <h3 className="text-3xl font-bold mb-3">Get Started Now</h3>
                         <div className="w-3/8 relative flex flex-col items-center justify-center">
                             <div className="absolute inset-x-auto top-0 bg-gradient-to-r from-transparent via-indigo-500 to-transparent h-[5px] w-full blur-sm"></div>
@@ -14,6 +14,14 @@ export const Home = () => {
                         Be part of millions people around the world using modern User Interfaces.
                     </p>
                 </div>
+        </>
+    )
+}
+
+export const Home = () => {
+    return(
+            <div className="relative gradient-bg">
+                <FirstSection />
           </div>
 
     )

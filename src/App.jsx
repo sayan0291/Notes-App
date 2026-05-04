@@ -3,6 +3,7 @@ import { Home } from "./pages/Home.jsx"
 import Notes from "./pages/Notes.jsx"
 import Navbar from "./components/shared/Navbar.jsx"
 import Dashboard from "./pages/Dashboard.jsx"
+import { CardAllDetails } from "./components/ui/NotesDisplay.jsx"
 
 export default function App(){
 
@@ -10,7 +11,7 @@ export default function App(){
     <>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Notes />} />
+        <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
         <Route path="/notes" element={<Notes />} />
         <Route path="/dashboard" element={<Dashboard />} />

@@ -35,7 +35,7 @@
 
 @layer components{
     .gradient-bg {
-        @apply bg-gradient-to-l from-blue-100/50 via-violet-100 to-blue-100/40;
+        @apply bg-gradient-to-l from-blue-100/50 via-violet-100 to-blue-100/40 w-full h-full min-h-screen;
     }
     .nav-button{
         @apply font-goldman font-thin tracking-wider text-[clamp(10px,5vw,15px)] text-slate-500;
