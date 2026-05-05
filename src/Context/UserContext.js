@@ -1,3 +1,3 @@
-const NotesContext = React.createContext()
+const UserContext = React.createContext()
 
-export default NotesContext;
+export default UserContext;

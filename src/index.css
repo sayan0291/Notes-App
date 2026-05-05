@@ -34,6 +34,11 @@
 }
 
 @layer components{
+
+    .full-card{
+      @apply absolute w-screen h-screen top-0 left-0 bg-[rgba(0,0,0,0.8)] overflow-hidden overscroll-none;
+    }
+
     .gradient-bg {
         @apply bg-gradient-to-l from-blue-100/50 via-violet-100 to-blue-100/40 w-full h-full min-h-screen;
     }

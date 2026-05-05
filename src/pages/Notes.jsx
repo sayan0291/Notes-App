@@ -1,10 +1,10 @@
+import React from "react";
 import { Search,NotebookPen,Folder,Plus,TriangleAlert,OctagonAlert  } from "lucide-react";
-import {useState,useForm, useEffect} from "react"
-import {Link} from "react-router-dom"
 import Button from "../components/ui/Buttons";
 import NotesAdd from "../components/ui/NotesAdd";
 import { ReadData } from "../Form/FormHandler";
-import { ErrorCard,Card } from "../components/ui/NotesDisplay";
+import { ErrorCard,Card, CardAllDetails } from "../components/ui/NotesDisplay";
+import NotesContext from "../Context/NotesContext/NotesContext";
 
 const SearchInput = () => {
     return(
@@ -20,11 +20,12 @@ const SearchInput = () => {
 }
 
 const Notes = () => {
-    const [showSection,setShowSection] = useState(false)
-    const [data,setData] = useState([])
+    const [showSection,setShowSection] = React.useState(false)
+    const [showEditSection,setShowEditSection] = React.useState(false)
+    const {notes,setNotes} = React.useContext(NotesContext)
 
-    useEffect(() => {
-        ReadData(setData);
+    React.useEffect(() => {
+        ReadData(setNotes);
     },[])
 
     return(
@@ -46,15 +47,15 @@ const Notes = () => {
                     </Button>
                 </div>
             </div>
-            {showSection && <NotesAdd setShowSection={setShowSection} />}
+            {showSection && <NotesAdd setShowEditSection={setShowEditSection} />}
             <div className="w-5/7 h-full">
-                {data == null ? (
+                {notes == null ? (
                             <ErrorCard type="error" cardtitle="error!!!" carddescription="Something Went Wrong" >
                                 <TriangleAlert color="#ff0f0f" className="text-yellow-300" strokeWidth={2} />
                             </ErrorCard>
-                        ) : data.length !== 0 ? (
-                                data.map((obj,index) =>
-                                    <Card key={obj.id} notesObj={obj} />
+                        ) : notes.length !== 0 ? (
+                                notes.map((obj,index) =>
+                                    <Card key={obj.id} notesObj={obj} setShowEditSection={setShowEditSection} />
                             )
                         ) : (
                             <ErrorCard type="nothing" cardtitle="Oh no!" carddescription="You dont have any notes here"  >
@@ -63,6 +64,7 @@ const Notes = () => {
                         )
                     }
             </div>
+            {showEditSection && <CardAllDetails  />}
         </div>
     )
 }

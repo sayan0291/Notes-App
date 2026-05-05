@@ -1,4 +1,6 @@
+import React from "react";
 import { Supabse } from "../Database/Supabase-client";
+
 
 export const AddNotes = async (Notesdata) => {
     const {data,error} = await Supabse.from('NotesFolder').insert(Notesdata).single();
@@ -8,14 +10,14 @@ export const AddNotes = async (Notesdata) => {
     }
 }
 
-export const ReadData = async (setData) => {
+export const ReadData = async (setNotes) => {
     const {data,error} = await Supabse.from("NotesFolder").select("*").order("created_at",{ascending: true})
 
     if(error){
         console.error("error in Read Data",error);
         return;
     }else{
-        setData(data)
+        setNotes(data);
     }
 }
 

@@ -16,7 +16,7 @@ const NotesAdd = ({setShowSection}) => {
     }
 
     return(
-        <div className="absolute w-screen h-screen top-0 left-0 bg-[rgba(0,0,0,0.7)]">
+        <div className="full-card">
             <form className="notesadd" onSubmit={handleSubmit(handleDataSubmit)}>
                 <div className="title">
                     <FormInput type="text" placeholder="Title" registerFor="title" validation={register} />

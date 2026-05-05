@@ -11,28 +11,28 @@ export const ErrorCard = ({cardtitle,carddescription,children,type}) => {
 
     return(
         <div className="fl-jt-ct h-screen">
-            <div class={`max-w-md mx-auto px-10 py-3 border border-white rounded-lg bg-gradient-to-b ${Display[type].background} flex self-start space-x-3 shadow-md`}>
-            <div class="flex-shrink-0">
-                <div class={`w-10 h-10 flex items-center justify-center bg-white border ${Display[type].icon} rounded-full`} >
+            <div className={`max-w-md mx-auto px-10 py-3 border border-white rounded-lg bg-gradient-to-b ${Display[type].background} flex self-start space-x-3 shadow-md`}>
+            <div className="flex-shrink-0">
+                <div className={`w-10 h-10 flex items-center justify-center bg-white border ${Display[type].icon} rounded-full`} >
                     {children}
                 </div>
             </div>
             <div>
-                <h3 class="text-lg font-semibold text-gray-900">{cardtitle}</h3>
-                <p class="text-gray-700 text-sm">{carddescription}</p>
+                <h3 className="text-lg font-semibold text-gray-900">{cardtitle}</h3>
+                <p className="text-gray-700 text-sm">{carddescription}</p>
             </div>
             </div>
         </div>
     )
 }
 
-export const Card = ({notesObj}) => {
+export const Card = ({notesObj,setShowEditSection}) => {
 
     const dateObj = new Date(notesObj.created_at)
     const date = dateObj.toLocaleDateString();
 
   return (
-    <div className="service-card m-5 shadow-xl cursor-pointer snap-start shrink-0 py-4 px-6 bg-white flex flex-col items-start gap-3 transition-all duration-300">
+    <div className="service-card m-5 shadow-xl cursor-pointer snap-start shrink-0 py-4 px-6 bg-white flex flex-col items-start gap-3 transition-all duration-300" onClick={() => setShowEditSection(true)}>
       <div className="fl-bt w-full">
         <p className="font-bold text-2xl text-black/80">
           {notesObj.title}
@@ -51,10 +51,12 @@ export const Card = ({notesObj}) => {
 
 export const CardAllDetails = () => {
   return(
-    <div className="gradient-bg absolute h-screen w-screen">
-        <div>
-          <p></p>
-        </div>
-    </div>
+    <NotesContextProvider>
+      <div className="full-card bg-[#F9F9F9]">
+          <div>
+            <p></p>
+          </div>
+      </div>
+    </NotesContextProvider>
   )
 }
