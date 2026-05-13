@@ -29,11 +29,11 @@ const Notes = () => {
     },[])
 
     return(
-        <div className='fl-jt-ct flex-col gradient-bg'>
+        <div className='fl-it-ct flex-col gradient-bg pt-6'>
             <div className='fl-bt w-5/7'>
                 <SearchInput />
             </div>
-            <div className="flex justify-between w-5/7 pt-5">
+            <div className="fl-bt w-5/7 pt-5">
                 <Button varient="notebuttn">
                     <div className="flex text-white gap-2">
                         <NotebookPen />
@@ -47,7 +47,7 @@ const Notes = () => {
                     </Button>
                 </div>
             </div>
-            {showSection && <NotesAdd setShowEditSection={setShowEditSection} />}
+            {showSection && <NotesAdd setShowSection={setShowSection} />}
             <div className="w-5/7 h-full">
                 {notes == null ? (
                             <ErrorCard type="error" cardtitle="error!!!" carddescription="Something Went Wrong" >
@@ -64,7 +64,7 @@ const Notes = () => {
                         )
                     }
             </div>
-            {showEditSection && <CardAllDetails  />}
+            {showEditSection && <CardAllDetails />}
         </div>
     )
 }

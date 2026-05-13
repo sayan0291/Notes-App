@@ -1,5 +1,7 @@
+import React, { useContext } from "react"
 import { Trash2 } from "lucide-react"
-import { DeleteData } from "../../Form/FormHandler"
+import { DeleteData, ReadData } from "../../Form/FormHandler"
+import NotesContext from "../../Context/NotesContext/NotesContext"
 
 const Display = {
     error: {icon: "border-red-400",background: "from-red-300 to-red-100"},
@@ -27,17 +29,27 @@ export const ErrorCard = ({cardtitle,carddescription,children,type}) => {
 }
 
 export const Card = ({notesObj,setShowEditSection}) => {
-
+    const { notes,setNotes,setNotedetails } = useContext(NotesContext)
     const dateObj = new Date(notesObj.created_at)
     const date = dateObj.toLocaleDateString();
 
+    const handleDelete = async (event) => {
+        event.stopPropagation()
+        await DeleteData(notesObj.id)
+        ReadData(setNotes)
+    }
+    const handleclick = (notesobj) => {
+        setShowEditSection(true)
+        setNotedetails(notesObj)
+    }
+
   return (
-    <div className="service-card m-5 shadow-xl cursor-pointer snap-start shrink-0 py-4 px-6 bg-white flex flex-col items-start gap-3 transition-all duration-300" onClick={() => setShowEditSection(true)}>
+    <div className="service-card m-5 shadow-xl cursor-pointer snap-start shrink-0 py-4 px-6 bg-white flex flex-col items-start gap-3 transition-all duration-300" onClick={handleclick}>
       <div className="fl-bt w-full">
         <p className="font-bold text-2xl text-black/80">
           {notesObj.title}
         </p>
-        <Trash2 className="self-end text-slate-400 hover:text-red-300 duration-400" onClick={() => DeleteData(notesObj.id)} />
+        <Trash2 className="self-end text-slate-400 hover:text-red-300 duration-400" onClick={() => handleDelete(notesObj)} />
       </div>
       <p className="text-gray-400 text-sm">
         {notesObj.description}
@@ -50,13 +62,16 @@ export const Card = ({notesObj,setShowEditSection}) => {
 }
 
 export const CardAllDetails = () => {
+
+  const {notedetails,notes} = useContext(NotesContext);
+
   return(
-    <NotesContextProvider>
+    <>
       <div className="full-card bg-[#F9F9F9]">
           <div>
-            <p></p>
+            <p className="text-black">{notedetails.title}</p>
           </div>
       </div>
-    </NotesContextProvider>
+    </>
   )
 }

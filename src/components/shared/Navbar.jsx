@@ -29,7 +29,7 @@ export default function Navbar() {
     const [menuOpen, setMenuOpen] = React.useState(false);
 
     return (
-        <div className="fl-jt-ct shadow-md border border-gray-200 bg-blue-100/50">
+        <div className="fl-jt-ct shadow-md border border-gray-200 bg-[#FAFBFF]">
             <header className="fl-bt md:w-3/4 w-full">
                 <h1>NotesAPP</h1>
                 <TextAlignEnd className="md:hidden block menu-icon" absoluteStrokeWidth={true} onClick={() => setMenuOpen((prev) => !prev)} />

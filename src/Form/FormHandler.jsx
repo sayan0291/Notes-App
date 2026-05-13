@@ -1,9 +1,9 @@
 import React from "react";
-import { Supabse } from "../Database/Supabase-client";
+import { Supabase } from "../Database/Supabase-client";
 
 
 export const AddNotes = async (Notesdata) => {
-    const {data,error} = await Supabse.from('NotesFolder').insert(Notesdata).single();
+    const {data,error} = await Supabase.from('NotesFolder').insert(Notesdata).single();
     if(error){
         console.log("error in add data",error);
         return;
@@ -11,7 +11,7 @@ export const AddNotes = async (Notesdata) => {
 }
 
 export const ReadData = async (setNotes) => {
-    const {data,error} = await Supabse.from("NotesFolder").select("*").order("created_at",{ascending: true})
+    const {data,error} = await Supabase.from("NotesFolder").select("*").order("created_at",{ascending: true})
 
     if(error){
         console.error("error in Read Data",error);
@@ -23,5 +23,6 @@ export const ReadData = async (setNotes) => {
 
 export const DeleteData = async (id) => {
 
-    const {data,error} = await Supabse.from("NotesFolder").delete().eq("id",id)
+    const {data,error} = await Supabase.from("NotesFolder").delete().eq("id",id)
+
 }
