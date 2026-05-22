@@ -11,25 +11,29 @@
   --color-secondary: #1c1c1c;
   --color-tertiary : #666666;
   --color-tertiary-change : #E8E8E8;
-  --color-divider: #E8E8E5;
+  --color-divider: #FFFFFF14;
   --color-button-border: #D4D4D0;
   --color-active-border: #BBBBB6;
   --color-logo: #7F77DD;
+  --color-note-list: #242424;
+  --color-editor: #2C2C2C;
 
   --rounded-sm: 4px;
   --rounded-md: 8px;
   --rounded-lg: 12px;
   --rounded-xl: 20px;
 
-  --text-sm: [clamp("12px,1vw,15px")],
-  --text-md: [clamp("12px,1vw,15px")],
-  --text-lg: [clamp("12px,1vw,15px")],
+  --text-sm: [clamp("12px,1vw,15px")];
+  --text-md: [clamp("12px,1vw,15px")];
+  --text-lg: [clamp("12px,1vw,15px")];
+
+  --breakpoint-sx: 30rem;
 }
 
 @layer base {
 
   body {
-    @apply h-screen box-border m-0 p-0;
+    @apply h-screen box-border bg-secondary m-0 p-0;
   }
 }
 
@@ -47,31 +51,38 @@
 
 @layer components{
 
-      .side-bar {
-        @apply font-sans bg-secondary border-r-[0.5px] overflow-hidden border-divider h-screen w-1/5 flex flex-col;
+    .side-bar {
+      @apply font-sans bg-secondary overflow-hidden w-3/5 md:w-1/5 md:h-screen flex flex-col;
 
-        .side-bar-section {
-          @apply text-white flex flex-col gap-3 py-3 px-4 font-serif;
+      .side-bar-section {
+        @apply text-white flex flex-col py-3 px-4 font-serif;
 
-          .name-section {
-            @apply flex;
+        .name-section {
+          @apply flex;
 
-            & h2{
-              @apply hidden md:block text-title text-[clamp(9px,1.4vw,14px)] font-medium mb-2;
-            }
+          & h2{
+            @apply hidden md:block text-title text-[clamp(9px,1.4vw,14px)] font-medium my-2;
           }
-          .child-btn{
-            @apply flex flex-col items-start;
+        }
+        .child-btn{
+          @apply flex flex-col items-start mb-2;
 
-            .nav-btn{
+          .nav-btn{
+            @apply flex-ic text-tertiary transition-colors duration-150 rounded-sm hover:text-tertiary-change hover:bg-tertiary w-full p-1 m-0.5;
 
-              @apply flex-ic text-tertiary transition-colors duration-150 rounded-sm hover:text-tertiary-change hover:bg-tertiary w-full p-1 m-0.5;
-
-              .points {
-                @apply h-2 w-2 rounded-4xl mx-2;
-              }
+            .points {
+              @apply h-2 w-2 rounded-4xl mx-2;
             }
           }
         }
       }
+    }
+
+    .all-notes {
+      @apply w-1/4 bg-note-list border-divider border-[0.01em];
+
+      .all-notes-header{
+        @apply flex-bw-ic px-4 py-2 border-b-[0.01em] border-divider;
+      }
+    }
 }

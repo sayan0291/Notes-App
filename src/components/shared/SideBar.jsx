@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Icon } from "../ui/Icon.jsx";
 import { TextAlignEnd,X,NotebookText,Library,NotepadText,Pin,Trash2,Tags } from 'lucide-react';
 import { NavLink } from "react-router-dom";
@@ -10,22 +11,20 @@ const sideButton = [
 
 export default function SideBar() {
 
-    const handleClick = () => {
-        setActive((prev) => !prev);
-    }
+    const [menuOpen,setMenuOpen] = useState(false);
 
     return (
         <div className="side-bar">
-            <div className="flex-bw-ic">
+            <div className="flex-bw-ic p-3">
                 <Icon varient="logo">
                     <NotebookText  strokeWidth={1.5} size={25} />
-                    <h1 className="text-white font-sans hidden md:block">Notes</h1>
+                    <h1 className="text-white font-sans hidden sm:block">Notes</h1>
                 </Icon>
                 <Button varient="menuBtn">
-                    <TextAlignEnd strokeWidth={1} size={25} />
+                    <TextAlignEnd strokeWidth={1} size={25} onClick={() => setMenuOpen((prev) => !prev)} />
                 </Button>
             </div>
-            <div className="side-bar-section h-full">
+            <div className={`${menuOpen ? "block h-screen" : "hidden md:block"} side-bar-section`} >
                 {sideButton.map((item) => {
                     return (
                         <div key={item.id}>
@@ -37,7 +36,7 @@ export default function SideBar() {
                             </div>
                             <div className="child-btn">
                                 {item.children.map((btn) => (
-                                    <NavLink key={btn.id} to={btn.to} varient="navBtn" className={({isActive}) => isActive ? "bg-tertiary text-tertiary-change nav-btn" : "nav-btn"} >
+                                    <NavLink key={btn.id} to={btn.to} varient="navBtn" className={({isActive}) => isActive ? "bg-tertiary text-tertiary-change nav-btn" : "nav-btn"} onClick={() => setMenuOpen(!menuOpen)} >
                                         {btn.icon ? ( 
                                             <Icon varient="navIcons">
                                                 {btn.icon}
