@@ -85,4 +85,8 @@
         @apply flex-bw-ic px-4 py-2 border-b-[0.01em] border-divider;
       }
     }
+
+    .editor-card {
+      @apply bg-red-300 w-full;
+    }
 }

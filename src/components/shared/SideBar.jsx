@@ -9,7 +9,7 @@ const sideButton = [
     {id:2,to:"/tags",name: "Tags",mainicon: <Tags size={26} strokeWidth={1} />,children: [{id: "work",to: "/tags/work",name:"Work",color: "#7F77DD"},{id: "personal",to: "/tags/personal",name:"Personal",color: "#1D9E75"},{id: "ideas",to: "/tags/ideas",name:"Ideas",color:"#D85A30"},{id: "study",to: "/tags/study",name:"Study",color: "#378ADD"}]}
 ]
 
-export default function SideBar() {
+export const SideBar = () => {
 
     const [menuOpen,setMenuOpen] = useState(false);
 

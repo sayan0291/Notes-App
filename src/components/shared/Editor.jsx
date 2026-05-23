@@ -1,9 +1,9 @@
 import { FormInput,FormTextArea } from "../../Form/FormUi";
-import Button from "./Buttons";
+import Button from "../ui/Buttons";
 import { useForm } from "react-hook-form";
 import { AddNotes,ReadData } from "../../Form/FormHandler";
 
-const NotesAdd = ({setShowSection}) => {
+export const Editor = ({setShowSection}) => {
 
     const {
         register,
@@ -16,7 +16,7 @@ const NotesAdd = ({setShowSection}) => {
     }
 
     return(
-        <div className="full-card">
+        <div className="editor-card">
             <form className="notesadd" onSubmit={handleSubmit(handleDataSubmit)}>
                 <div className="title">
                     <FormInput type="text" placeholder="Title" registerFor="title" validation={register} />
@@ -36,5 +36,3 @@ const NotesAdd = ({setShowSection}) => {
         </div>
     )
 }
-
-export default NotesAdd;
