@@ -21,7 +21,7 @@ html, body, #root {
   --color-button-border: #D4D4D0;
   --color-active-border: #BBBBB6;
   --color-logo: #7F77DD;
-  --color-note-list: #242424;
+  --color-note-list: #1e1e1e;
   --color-editor: #2C2C2C;
   --color-toolbar: #363636;
   --color-toolbar-change: #3A3A3A;
@@ -61,7 +61,7 @@ html, body, #root {
 @layer components{
 
     .side-bar {
-      @apply font-sans bg-secondary overflow-hidden sm:w-2/5 md:w-1/5 flex flex-col border-thin border-l-0 border-t-0 border-divider;
+      @apply font-sans bg-secondary overflow-hidden w-3/5 sx:w-2/5 md:w-1/5 flex flex-col border-thin border-l-0 border-t-0 border-divider;
 
       .side-bar-section {
         @apply text-white flex flex-col font-serif;
@@ -70,7 +70,7 @@ html, body, #root {
           @apply flex mx-3;
 
           & h2{
-            @apply hidden md:block text-title text-md font-medium my-2;
+            @apply block text-title text-md font-medium my-2;
           }
         }
         .child-btn{
@@ -87,8 +87,27 @@ html, body, #root {
       }
     }
 
+    .section{
+      @apply p-6 pt-0 h-full w-full overflow-y-auto;
+
+      .section-body{
+        @apply grid grid-cols-1 sx:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-4;
+
+        .section-card{
+          @apply bg-note-list border border-divider rounded-md p-4 mb-4 break-inside-avoid;
+
+          & h3{
+            @apply text-white text-sm font-medium mb-2;
+          }
+          & p {
+            @apply text-[#888] text-xs leading-relaxed;
+          }
+        }
+      }
+    }
+
     .section-header {
-        @apply flex-bw-ic h-15 px-4 text-md font-mono;
+        @apply flex-bw-ic h-15 text-md font-mono;
     }
 
     .all-notes {

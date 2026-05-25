@@ -14,7 +14,7 @@ export const Navbar = () => {
                 <h1 className="text-white font-sans hidden sm:block">Notes</h1>
             </Icon>
             <Button varient="menuBtn" onClick={() => dispatch({type: 'TOGGLE_MENU'})}>
-                <TextAlignEnd strokeWidth={1} size={25} />
+                <TextAlignEnd strokeWidth={1.5} size={22} />
             </Button>
         </div>
     )
