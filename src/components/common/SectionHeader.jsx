@@ -1,5 +1,5 @@
 import { ArrowDownUp } from "lucide-react"
-import Button from "./buttons"
+import Button from "./Button.jsx"
 
 export const SectionHeader = ({sectiontitle}) => {
     return(

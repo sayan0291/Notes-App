@@ -2,7 +2,8 @@ const varients = {
     logo: "text-logo flex-ic gap-1 text-lg font-medium",
     navIcon: "md:hidden block",
     navIcons: "mr-2",
-    userIcon: "p-2 border-[0.5px] bg-card-border rounded-4xl"
+    userIcon: "p-2 border-[0.5px] bg-card-border rounded-4xl",
+    feature: "text-green p-4"
 }
 
 export const Icon = ({varient="logo",children}) => {

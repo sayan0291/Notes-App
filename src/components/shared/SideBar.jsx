@@ -1,7 +1,7 @@
-import { Icon } from "../ui/Icon.jsx";
+import { Icon } from "../common/Icon.jsx";
 import { TextAlignEnd,X,NotebookText,Library,NotepadText,Pin,Trash2,Tags } from 'lucide-react';
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { UseUi } from "../../Context/UiContext.jsx";
 
 const sideButton = [
     {id:1,name: "Library",children: [ {id: "all-notes",to: "/library/all-notes",name: "All notes",icon: <NotepadText className="w-4 h-4 sm:w-5 sm:h-5" strokeWidth={1} />},{id: "pinned",to: "/library/pinned",name: "Pinned",icon: <Pin className="w-4 h-4 sm:w-5 sm:h-5" strokeWidth={1} />},{id: "trash",to: "/library/trash",name: "Trash",icon: <Trash2 className="w-4 h-4 sm:w-5 sm:h-5" strokeWidth={1} />} ]},
@@ -9,11 +9,10 @@ const sideButton = [
 ]
 
 export const SideBar = () => {
-
-    const { state } = UseUi();
+    const [open,setOpen] = useState(true);
 
     return (
-        <div className={`${state.isMenuOpen ? "block" : "hidden" } side-bar`}>
+        <div className={`${open ? "flex" : "hidden" } side-bar`}>
             <div className="side-bar-section" >
                 {sideButton.map((item) => {
                     return (
@@ -26,7 +25,7 @@ export const SideBar = () => {
                             </div>
                             <div className="child-btn">
                                 {item.children.map((btn) => (
-                                    <NavLink key={btn.id} to={btn.to} className={({isActive}) => isActive ? "bg-toolbar text-tertiary-change nav-btn" : "nav-btn"} onClick={() => setMenuOpen(!menuOpen)} >
+                                    <NavLink key={btn.id} to={btn.to} className={({isActive}) => isActive ? "bg-toolbar text-tertiary-change nav-btn" : "nav-btn"} >
                                         {btn.icon ? ( 
                                             <Icon varient="navIcons">
                                                 {btn.icon}

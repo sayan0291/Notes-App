@@ -1,10 +1,23 @@
-@import url('https://fonts.googleapis.com/css2?family=Angkor&family=Saira+Stencil&family=Goldman&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Angkor&family=Saira+Stencil&family=Luckiest+Guy&family=Croissant+One&family=Playfair+Display&display=swap');
 @import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
 
 html, body, #root {
   height: 100%;
   margin: 0;
-  overflow: hidden;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+html {
+  scrollbar-width: none;
+}
+
+body {
+  -ms-overflow-style: none;
 }
 
 @theme {
@@ -13,8 +26,14 @@ html, body, #root {
   --shadow-md: 0 4px 12px rgba(0,0,0,0.08),0 2px 4px rgba(0,0,0,0.04);
   --shadow-lg: 0 12px 32px rgba(0,0,0,0.10),0 4px 8px rgba(0,0,0,0.06);
 
+  --font-angkor: "Angkor", sans-serif;
+  --font-saira: "Saira Stencil", sans-serif;
+  --font-luckiest: "Luckiest Guy", sans-serif;
+  --font-display: "Playfair Display",sans-serif;
+  --font-croissant: "Croissant One", sans-serif;
+
   --color-title: #AAAAAA;
-  --color-secondary: #1c1c1c;
+  --color-secondary-custom: #1c1c1c;
   --color-tertiary : #666666;
   --color-tertiary-change : #E8E8E8;
   --color-divider: #FFFFFF14;
@@ -25,6 +44,17 @@ html, body, #root {
   --color-editor: #2C2C2C;
   --color-toolbar: #363636;
   --color-toolbar-change: #3A3A3A;
+
+  --color-yellow: #EEDE4E;
+  --color-slate: #E2E8F0;
+  --color-pink: #FBB6CE;
+  --color-purple: #D6BCFA;
+  --color-violet: #A3BFFA;
+  --color-light-violet: #C7D8FC;
+  --color-blue: #90CDF4;
+  --color-green: #295F2D;
+  --color-mint: #9AE6B4;
+  --color-red: #F96167;
 
   --rounded-sm: 4px;
   --rounded-md: 8px;
@@ -42,8 +72,11 @@ html, body, #root {
 }
 
 @layer base {
-
   
+  html {
+    @apply font-sans;
+  }
+
 }
 
 @utility flex-bw-ic{
@@ -59,9 +92,25 @@ html, body, #root {
 }
 
 @layer components{
+  .glass-card {
+    @apply bg-[rgba(255,255,255,0.7)]  backdrop-blur-[10px] border border-[rgba(243,244,246,1)] shadow-[0px_4px_12px_rgba(0,0,0,0.03)];
+            
+        }
+
+  .landing-page {
+    @apply relative min-h-screen flex-jc-ic flex-col bg-[#f9f9ff] p-0;
+
+    & h2 {
+      @apply font-display font-extrabold text-3xl bg-[#072C50] m-2 px-5 py-3 rounded-sm text-white;
+    }
+
+    & h3 {
+      @apply font-serif text-center font-[300] text-lg text-gray-700 max-w-[250px] mt-2;
+    }
+  }
 
     .side-bar {
-      @apply font-sans bg-secondary overflow-hidden w-3/5 sx:w-2/5 md:w-1/5 flex flex-col border-thin border-l-0 border-t-0 border-divider;
+      @apply font-sans bg-secondary-custom overflow-hidden w-3/5 sx:w-2/5 md:w-1/5 flex flex-col h-full border-thin border-l-0 border-t-0 border-divider;
 
       .side-bar-section {
         @apply text-white flex flex-col font-serif;
@@ -87,14 +136,31 @@ html, body, #root {
       }
     }
 
+    .nav-bar{
+      @apply absolute top-5 flex-bw-ic w-[95%] z-30 px-5 py-2;
+
+      & h1{
+        @apply text-[#DDC6B6] font-luckiest tracking-wider text-lg;
+      }
+
+      & div{
+        @apply flex font-serif gap-2 transition-colors duration-200 ease-in-out;
+
+        .new-note {
+          @apply text-violet bg-toolbar px-2 py-0.5 rounded-md border border-divider hover:border-thin hover:text-light-violet hover:border-violet;
+        }
+      }
+
+    }
+
     .section{
       @apply p-6 pt-0 h-full w-full overflow-y-auto;
 
       .section-body{
-        @apply grid grid-cols-1 sx:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-4;
+        @apply columns-1 sx:columns-2 sm:columns-3 lg:columns-4 gap-4;
 
         .section-card{
-          @apply bg-note-list border border-divider rounded-md p-4 mb-4 break-inside-avoid;
+          @apply bg-note-list border border-divider inline-block rounded-md p-4 mb-4 break-inside-avoid;
 
           & h3{
             @apply text-white text-sm font-medium mb-2;
@@ -110,15 +176,201 @@ html, body, #root {
         @apply flex-bw-ic h-15 text-md font-mono;
     }
 
-    .all-notes {
-      @apply w-full bg-secondary;
-    }
+    .editor {
+      @apply flex flex-col w-full;
 
-    .editor-card {
-      @apply bg-editor w-full;
+      /* ══════════════════════════════════════════
+        TOOLBAR CONTAINER
+      ══════════════════════════════════════════ */
+      .ql-toolbar.ql-snow {
+        @apply !border-none bg-[#161616] px-[10px] py-[6px]
+              flex flex-wrap items-center gap-[2px]
+              border-b border-[#252525]
+              relative z-[1];
+      }
 
-      .toolbar {
-        @apply bg-toolbar flex-ic px-4 h-15;
+      /* ══════════════════════════════════════════
+        FORMAT GROUP SEPARATORS
+      ══════════════════════════════════════════ */
+      .ql-toolbar.ql-snow .ql-formats {
+        @apply flex items-center gap-[1px]
+              mr-[6px] pr-[6px]
+              border-r border-[#252525];
+      }
+      .ql-toolbar.ql-snow .ql-formats:last-child {
+        @apply border-r-0 mr-0 pr-0;
+      }
+
+      /* ══════════════════════════════════════════
+        TOOLBAR BUTTONS
+      ══════════════════════════════════════════ */
+      .ql-toolbar.ql-snow button {
+        @apply w-[26px] h-[26px] p-[4px] rounded-[5px]
+              flex items-center justify-center
+              text-[#606060] bg-transparent border-none
+              cursor-pointer relative
+              transition-all duration-[120ms] ease-out;
+      }
+
+      .ql-toolbar.ql-snow button:hover {
+        @apply bg-[#242424] text-[#c8c8c8] -translate-y-px;
+      }
+
+      .ql-toolbar.ql-snow button.ql-active {
+        @apply bg-[#1c2a3a] text-[#4da3ff];
+      }
+
+      .ql-toolbar.ql-snow button svg {
+        @apply w-[14px] h-[14px] pointer-events-none block;
+      }
+
+      /* ── stroke / fill → currentColor ── */
+      .ql-toolbar.ql-snow button .ql-stroke {
+        @apply !fill-none transition-all duration-[120ms];
+        stroke: currentColor !important;
+      }
+      .ql-toolbar.ql-snow button .ql-fill {
+        @apply transition-all duration-[120ms];
+        fill: currentColor !important;
+        stroke: none !important;
+      }
+      .ql-toolbar.ql-snow button .ql-stroke.ql-fill {
+        fill: currentColor !important;
+        stroke: currentColor !important;
+      }
+
+      /* active icon colour */
+      .ql-toolbar.ql-snow button.ql-active .ql-stroke {
+        stroke: #4da3ff !important;
+      }
+      .ql-toolbar.ql-snow button.ql-active .ql-fill {
+        fill: #4da3ff !important;
+      }
+
+      /* ══════════════════════════════════════════
+        PICKER WRAPPER
+      ══════════════════════════════════════════ */
+      .ql-toolbar.ql-snow .ql-picker {
+        @apply text-[#606060] h-[26px] relative;
+      }
+
+      /* ── Label (trigger) ── */
+      .ql-toolbar.ql-snow .ql-picker-label {
+        @apply h-[26px] px-[6px] py-0 rounded-[5px]
+              !border border-transparent bg-transparent
+              text-[#606060] text-[11px] font-medium tracking-[0.02em]
+              flex items-center gap-[4px] cursor-pointer
+              transition-all duration-[120ms] ease-out;
+      }
+
+      .ql-toolbar.ql-snow .ql-picker-label:hover {
+        @apply bg-[#242424] text-[#c8c8c8] !border-[#303030];
+      }
+
+      .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-label {
+        @apply bg-[#1e1e1e] text-[#e0e0e0] !border-[#333333];
+      }
+
+      .ql-toolbar.ql-snow .ql-picker-label .ql-stroke {
+        stroke: currentColor !important;
+        @apply transition-all duration-[120ms];
+      }
+
+      /* ── OPTIONS PANEL ── */
+      .ql-snow .ql-picker-options{
+        @apply !p-0;
+      }
+      .ql-toolbar.ql-snow .ql-picker-options {
+        @apply absolute top-[calc(100%+4px)] left-0
+              z-[9999] p-[4px]
+              bg-[#1a1a1a] !border !border-[#2a2a2a]
+              shadow-[0_4px_6px_-1px_rgba(0,0,0,0.4),0_10px_30px_-5px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.04)];
+      }
+
+      /* ── DROPDOWN ITEMS ── */
+      .ql-toolbar.ql-snow .ql-picker-item {
+        @apply px-[10px] py-[5px]
+              text-[12px] text-[#888888] cursor-pointer
+              block leading-[1.4] transition-colors duration-150
+      }
+
+      .ql-toolbar.ql-snow .ql-picker-item:hover {
+        @apply bg-[#252525] text-[#e0e0e0];
+      }
+
+      .ql-toolbar.ql-snow .ql-picker-item.ql-selected {
+        @apply text-[#4da3ff] bg-[#162032];
+      }
+
+      /* ══════════════════════════════════════════
+        COLOR / BG SWATCH PICKERS
+      ══════════════════════════════════════════ */
+      .ql-toolbar.ql-snow .ql-color-picker .ql-picker-options {
+        @apply w-[176px] p-[8px] flex flex-wrap gap-[3px];
+      }
+
+      .ql-toolbar.ql-snow .ql-color-picker .ql-picker-item {
+        @apply w-[18px] h-[18px] p-0 rounded-[3px]
+              border-2 border-transparent
+              transition-all duration-100 ease-out;
+      }
+
+      .ql-toolbar.ql-snow .ql-color-picker .ql-picker-item:hover {
+        @apply scale-[1.2] border-white pl-0
+              shadow-[0_0_0_1px_rgba(255,255,255,0.15)];
+      }
+
+      .ql-toolbar.ql-snow .ql-color-picker .ql-picker-item.ql-selected {
+        @apply border-[#4da3ff] scale-[1.1];
+      }
+
+      /* ══════════════════════════════════════════
+        LINK / IMAGE TOOLTIP
+      ══════════════════════════════════════════ */
+      .ql-snow .ql-tooltip {
+        @apply !fixed z-[99999]
+              bg-[#1a1a1a] !border !border-[#2a2a2a] rounded-[8px]
+              shadow-[0_8px_32px_rgba(0,0,0,0.6)]
+              text-[#c0c0c0] py-[7px] px-[12px]
+              text-[12px] whitespace-nowrap;
+        animation: dropdownOpen 0.15s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+
+      .ql-snow .ql-tooltip input[type="text"] {
+        @apply bg-[#111111] border border-[#2a2a2a] rounded-[5px]
+              text-[#e0e0e0] py-[3px] px-[8px]
+              text-[12px] outline-none
+              transition-all duration-150 ease-out
+              focus:border-[#4da3ff];
+      }
+
+      .ql-snow .ql-tooltip a.ql-action {
+        @apply text-[#4da3ff] text-[11px] font-medium ml-[8px]
+              no-underline transition-colors duration-100
+              hover:text-[#7dc0ff];
+      }
+
+      .ql-snow .ql-tooltip a.ql-remove {
+        @apply text-[#ff6b6b] text-[11px] font-medium ml-[8px]
+              no-underline transition-colors duration-100
+              hover:text-[#ff9090];
+      }
+
+      /* ══════════════════════════════════════════
+        EDITOR BODY
+      ══════════════════════════════════════════ */
+      .ql-container.ql-snow {
+        @apply !border-none bg-[#111111];
+      }
+
+      .ql-editor {
+        @apply text-[#d4d4d4] min-h-[320px] text-[14px]
+              leading-[1.75] px-[24px] py-[20px];
+        caret-color: #4da3ff;
+      }
+
+      .ql-editor.ql-blank::before {
+        @apply text-[#363636] not-italic;
       }
     }
-}
+  }

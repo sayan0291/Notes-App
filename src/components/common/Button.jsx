@@ -1,4 +1,5 @@
 const varients = {
+    regBtn: "bg-logo text-on-mint px-6 py-3 rounded-xl font-serif text-label-md cta-shadow hover:bg-violet-500 duration-150 hover:text-on-green transition-all active:scale-95",
     menuBtn: "mr-2 text-[#FFFFFF]",
     notebuttn: "bg-red-400 px-5 py-2 rounded-3xl",
     filterBtn: "flex gap-1 text-tertiary",

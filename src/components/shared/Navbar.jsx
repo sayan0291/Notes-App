@@ -1,21 +1,18 @@
-import { TextAlignEnd,NotebookText } from "lucide-react"
-import { Icon } from "../ui/Icon"
-import Button from "../ui/Buttons.jsx"
-import { UseUi } from "../../Context/UiContext"
+import { Icon } from "../common/Icon"
+import Button from "../common/Button.jsx"
 
 export const Navbar = () => {
-
-    const { dispatch } = UseUi();
-
+    
     return(
-        <div className="flex-bw-ic p-3 bg-secondary border-b-[0.01em] border-divider">
+        <div className="nav-bar">
             <Icon varient="logo">
-                <NotebookText  strokeWidth={1.5} size={25} />
-                <h1 className="text-white font-sans hidden sm:block">Notes</h1>
+                <img src="paper.png" className="w-10" />
+                <h1>zenotes</h1>
             </Icon>
-            <Button varient="menuBtn" onClick={() => dispatch({type: 'TOGGLE_MENU'})}>
-                <TextAlignEnd strokeWidth={1.5} size={22} />
+            <Button varient="regBtn">
+                Getting Started
             </Button>
+
         </div>
     )
 }
