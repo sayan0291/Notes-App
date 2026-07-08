@@ -1,4 +1,4 @@
-import { useRef } from "react"
+import { useRef,useMemo } from "react"
 import { motion,useScroll,useSpring,useInView } from "framer-motion"
 
 export const FadeUp = ({children,delay=0.2,className=""}) => {
@@ -6,7 +6,7 @@ export const FadeUp = ({children,delay=0.2,className=""}) => {
     return(
         <>
             <motion.div
-                className={className}
+                className={`${className}`}
                 initial={{opacity:0,y:40}}
                 whileInView={{ opacity: 1,y: 0}}
                 viewport={{ once: false,amount: 0.25 }}
@@ -90,7 +90,7 @@ export function WordFadeUp({
   className = "",
 }) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once, amount: 0.4 });
+  const isInView = useInView(ref, { once: false, amount: 0.4 });
  
   const words = text.split(" ");
  
@@ -135,4 +135,68 @@ export function SlideSection({children,x,delay=0.5}) {
         {children}
     </motion.div>
   )
+}
+
+
+// Generates a random box-shadow string of N tiny "stars" scattered across
+// a fieldWidth x fieldHeight area. Used to drive the twinkling starfield.
+function makeStarShadows(count, fieldWidth, fieldHeight) {
+  let shadows = [];
+  for (let i = 0; i < count; i++) {
+    const x = Math.floor(Math.random() * fieldWidth);
+    const y = Math.floor(Math.random() * fieldHeight);
+    shadows.push(`${x}px ${y}px #fff`);
+  }
+  return shadows.join(", ");
+}
+
+function StarLayer({ count, size, duration, fieldHeight = 2000, fieldWidth = 2000 }) {
+  // Two copies of the same star pattern stacked vertically let the
+  // upward scroll loop seamlessly forever.
+  const shadow = useMemo(
+    () => makeStarShadows(count, fieldWidth, fieldHeight),
+    [count, fieldWidth, fieldHeight]
+  );
+
+  const dotStyle = {
+    width: `${size}px`,
+    height: `${size}px`,
+    background: "transparent",
+    boxShadow: shadow,
+    animation: `star-scroll ${duration}s linear infinite`,
+  };
+
+  return (
+    <>
+      <div className="absolute top-0 left-0" style={dotStyle} />
+      <div
+        className="absolute left-0"
+        style={{ ...dotStyle, top: `${fieldHeight}px` }}
+      />
+    </>
+  );
+}
+
+export const Starfield = ({ children }) => {
+  return (
+    <div className="relative h-screen w-full overflow-hidden bg-[radial-gradient(ellipse_at_bottom,_#1b2735_0%,_#090a0f_100%)]">
+      <style>{`
+        @keyframes star-scroll {
+          from { transform: translateY(0); }
+          to { transform: translateY(-2000px); }
+        }
+        @keyframes intro-fade-up {
+          0% { opacity: 0; transform: translateY(30px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+      `}</style>
+
+      <StarLayer count={300} size={1} duration={50} />
+      <StarLayer count={200} size={2} duration={100} />
+      <StarLayer count={100} size={3} duration={150} />
+        <div className="flex-jc-ic h-full">
+          {children}
+        </div>
+    </div>
+  );
 }

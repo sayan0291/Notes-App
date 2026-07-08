@@ -1,29 +1,31 @@
 import { motion, AnimatePresence } from "motion/react";
 import { Sparkles,CloudSync,ScanSearch,PenTool } from "lucide-react"
-import { FadeUp, Pulse, PulseNode, SlideSection, WordFadeUp } from "../components/animation/Animation"
-import { Navbar } from "../components/shared/Navbar.jsx"
+import { FadeUp, Pulse, PulseNode, SlideSection, Starfield, WordFadeUp } from "../components/animation/Animation"
+import { Logo, Navbar } from "../components/shared/Navbar.jsx"
 import ConnectAnimate from "../components/animation/ConnectAnimate.jsx";
 import { Icon } from "../components/common/Icon.jsx";
+import Button from "../components/common/Button.jsx";
+import { NavLink } from "react-router-dom";
 
 const features = [
-    { id: 1,name: "Clean UI",description: "Zero distractions. An interface that disappears so your ideas can shine.",logo: <Sparkles strokeWidth={1} style={{backgroundColor: ""}} />,x: -40,delay: 0.1 },
-    { id: 2,name: "Cloud Sync",description: "Your notes, everywhere. Sync seamlessly across all your devices in real-time.",logo: <CloudSync strokeWidth={1} style={{backgroundColor: ""}} />,x: 0,delay: 0.5 },
-    { id: 3,name: "Smart Search",description: "Find anything instantly. Intelligent indexing helps you locate ideas in seconds.",logo: <ScanSearch strokeWidth={1} style={{backgroundColor: ""}} />,x: 40,delay: 0.2 },
+    { id: 1,name: "Clean UI",description: "Zero distractions. An interface that disappears so your ideas can shine.",logo: <Sparkles strokeWidth={1.5} className="text-mid-1-green" />,x: -40,delay: 0.1 },
+    { id: 2,name: "Cloud Sync",description: "Your notes, everywhere. Sync seamlessly across all your devices in real-time.",logo: <CloudSync strokeWidth={1.5} className="text-mid-1-green" />,x: 0,delay: 0.5 },
+    { id: 3,name: "Smart Search",description: "Find anything instantly. Intelligent indexing helps you locate ideas in seconds.",logo: <ScanSearch strokeWidth={1.5} className="text-mid-1-green" />,x: 40,delay: 0.2 },
 ]
 
 export const Hero = () => {
     return(
         <div className="landing-page">
             <Navbar />
-            <div className="w-full flex-jc-ic">
-                <div className="flex-jc-ic flex-col h-screen">
+            <Starfield>
+                <FadeUp delay={0.1} className="flex-ic flex-col">
                     <div className="bg-center bg-cover">
                         <img src="sticky-note.png" alt="desktop note" className="h-70" />
                     </div>
                     <h2>Capture thoughts, find focus.</h2>
                     <h3>The minimalist note-taking app designed for clarity.</h3>
-                </div>
-            </div>
+                </FadeUp>
+            </Starfield>
             <div className="mb-stack-lg py-3">
                 <FadeUp className="w-full aspect-[4/3] overflow-hidden p-4 rounded-xl glass-card">
                     <img className="w-full h-full rounded-lg bg-cover bg-center" src="desktop-image.png" alt="desk image" />
@@ -35,11 +37,11 @@ export const Hero = () => {
                     <WordFadeUp text="Write your all notes here" className="text-lg text-green font-angkor font-medium" />
                 </FadeUp>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 my-4 w-[80%]">
                 {features.map(obj => (
-                    <FadeUp key={obj.id} delay={obj.delay} >
-                        <div className="max-w-[300px] bg-slate h-40 p-2 rounded-md my-4">
-                            <div className="rounded-sm bg-mint">
+                    <FadeUp key={obj.id} delay={0.1} >
+                        <div className="feature-card glass-card">
+                            <div className="w-12 h-12 bg-mid-green/20 rounded-lg flex-jc-ic mb-4">
                                 <Icon varient="feature">
                                     {obj.logo}
                                 </Icon>
@@ -50,6 +52,19 @@ export const Hero = () => {
                     </FadeUp>
                 ))}
             </div>
+            <FadeUp className="bg-mint rounded-lg w-[79%] flex-jc-ic mb-4">
+                <div className="flex-jc-ic flex-col gap-3">
+                    <h5 className="font-croissant text-toolbar">Start your journey to organized thoughts today.</h5>
+                    <Button varient="joinBtn" >
+                        <NavLink to="/register" >Join Now</NavLink>
+                    </Button>
+                </div>
+            </FadeUp>
+            <footer className="border-thin border-l-0 border-r-0 border-b-0 border-toolbar/20 w-[100%]">
+                <div className="w-[100%] flex-jc-ic bg-yellow/20">
+                    <Logo />
+                </div>
+            </footer>
         </div>
     )
 }

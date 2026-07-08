@@ -9,7 +9,7 @@ const validationRules={
 
 export const FormInput = ({type,placeholder,registerFor,validation}) => {
     return(
-        <input type={type} placeholder={placeholder} {...validation(registerFor,validationRules[registerFor])} />
+        <input className="w-full outline-none placeholder:text-black/30 placeholder:text-md text-sm text-green" type={type} placeholder={placeholder} {...validation(registerFor,validationRules[registerFor])} />
     )
 }
 

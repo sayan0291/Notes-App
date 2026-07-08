@@ -34,7 +34,7 @@ body {
 
   --color-title: #AAAAAA;
   --color-secondary-custom: #1c1c1c;
-  --color-tertiary : #666666;
+  --color-tertiary : #ffffff;
   --color-tertiary-change : #E8E8E8;
   --color-divider: #FFFFFF14;
   --color-button-border: #D4D4D0;
@@ -53,6 +53,8 @@ body {
   --color-light-violet: #C7D8FC;
   --color-blue: #90CDF4;
   --color-green: #295F2D;
+  --color-mid-green: #10b981;
+  --color-mid-1-green: #006c49;
   --color-mint: #9AE6B4;
   --color-red: #F96167;
 
@@ -64,6 +66,7 @@ body {
   --text-sm: clamp(8px, 1.3vw, 13px);
   --text-md: clamp(9px, 1.4vw, 14px);
   --text-lg: clamp(12px, 1.7vw, 17px);
+  --text-3xl: clamp(25px, 3vw, 30px);
 
   --border-width-thin: 0.001em;
   --border-width-thick: 2px;
@@ -77,6 +80,10 @@ body {
     @apply font-sans;
   }
 
+  h1{
+    @apply font-luckiest tracking-wider text-lg;
+  }
+
 }
 
 @utility flex-bw-ic{
@@ -87,6 +94,10 @@ body {
   @apply flex justify-center items-center p-5;
 }
 
+@utility flex-jc{
+  @apply flex justify-center;
+}
+
 @utility flex-ic{
   @apply flex items-center;
 }
@@ -95,17 +106,62 @@ body {
   .glass-card {
     @apply bg-[rgba(255,255,255,0.7)]  backdrop-blur-[10px] border border-[rgba(243,244,246,1)] shadow-[0px_4px_12px_rgba(0,0,0,0.03)];
             
+  }
+
+    .reg-log-page {
+      @apply flex-jc-ic w-screen h-screen bg-blue/10 gap-4;
+
+      .form-page {
+        @apply w-full flex-jc;
+
+        .form-desc {
+          @apply px-2 flex-jc-ic flex-col gap-2;
+
+          & > h3 {
+            @apply text-toolbar/90 font-serif font-semibold text-lg;
+          }
+
+          & > h4 {
+            @apply text-green font-croissant font-medium text-lg w-[70%] text-center;
+          }
         }
+
+        .form-section {
+          @apply flex flex-col gap-2 rounded-sm py-5 px-8 font-serif;
+
+          & > div > label {
+            @apply text-green;
+          }
+
+          & > div > div {
+            @apply flex-ic text-center border border-toolbar/20 p-2 gap-2 ml-2;
+          }
+        }
+      }
+      
+    }
 
   .landing-page {
     @apply relative min-h-screen flex-jc-ic flex-col bg-[#f9f9ff] p-0;
 
     & h2 {
-      @apply font-display font-extrabold text-3xl bg-[#072C50] m-2 px-5 py-3 rounded-sm text-white;
+      @apply font-display font-extrabold text-3xl bg-[#072C50] m-2 px-5 py-3 rounded-sm text-black;
     }
 
     & h3 {
-      @apply font-serif text-center font-[300] text-lg text-gray-700 max-w-[250px] mt-2;
+      @apply font-serif text-center font-[300] text-lg text-white max-w-[250px] mt-2;
+    }
+
+    .feature-card {
+      @apply p-6 rounded-xl border-none bg-tertiary;
+
+      & h4 {
+        @apply font-display font-semibold text-md text-logo;
+      }
+
+      & small {
+        @apply font-serif font-medium text-sm text-toolbar/70;
+      }
     }
   }
 
@@ -139,8 +195,8 @@ body {
     .nav-bar{
       @apply absolute top-5 flex-bw-ic w-[95%] z-30 px-5 py-2;
 
-      & h1{
-        @apply text-[#DDC6B6] font-luckiest tracking-wider text-lg;
+       .nav-btn {
+        @apply bg-logo text-white px-6 py-3 rounded-xl font-serif shadow hover:bg-violet-500 duration-150 transition-all;
       }
 
       & div{
