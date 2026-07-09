@@ -84,6 +84,10 @@ body {
     @apply font-luckiest tracking-wider text-lg;
   }
 
+  span {
+    @apply text-mid-1-green hover:text-green transition-all duration-100c cursor-pointer text-md;
+  }
+
 }
 
 @utility flex-bw-ic{
@@ -112,7 +116,7 @@ body {
       @apply flex-jc-ic w-screen h-screen bg-blue/10 gap-4;
 
       .form-page {
-        @apply w-full flex-jc;
+        @apply w-full flex-jc font-serif;
 
         .form-desc {
           @apply px-2 flex-jc-ic flex-col gap-2;
@@ -127,14 +131,14 @@ body {
         }
 
         .form-section {
-          @apply flex flex-col gap-2 rounded-sm py-5 px-8 font-serif;
+          @apply flex flex-col gap-2 rounded-sm py-5 px-8;
 
           & > div > label {
             @apply text-green;
           }
 
           & > div > div {
-            @apply flex-ic text-center border border-toolbar/20 p-2 gap-2 ml-2;
+            @apply flex-ic text-center border border-toolbar/20 p-2 gap-2;
           }
         }
       }

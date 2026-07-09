@@ -6,7 +6,7 @@ export const Navbar = () => {
     
     return(
         <div className="nav-bar">
-            <Logo className="text-white" />
+            <Logo className2="text-white" />
             <NavLink className="nav-btn" to="/register" >Getting Started</NavLink>
         </div>
     )
