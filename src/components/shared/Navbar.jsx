@@ -2,10 +2,10 @@ import { Icon } from "../common/Icon"
 import Button from "../common/Button.jsx"
 import { NavLink } from "react-router-dom"
 
-export const Navbar = () => {
+export const Navbar = ({className=""}) => {
     
     return(
-        <div className="nav-bar">
+        <div className={`nav-bar ${className}`}>
             <Logo className2="text-white" />
             <NavLink className="nav-btn" to="/register" >Getting Started</NavLink>
         </div>

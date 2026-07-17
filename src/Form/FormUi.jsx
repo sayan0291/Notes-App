@@ -73,3 +73,23 @@ export const FormCheckBox = ({ register,registerFor,error }) => {
         </>
     )
 }
+
+export const SuccessMessage = ({success}) => {
+    return(
+        <>
+            <div className="mb-4 p-3 bg-green-50 border border-green-300 rounded-md">
+                <p className="text-green-600 text-sm font-medium">{success}</p>
+            </div>
+        </>
+    )
+}
+
+export const ErrorMessage = ({error}) => {
+    return(
+        <>
+            <div className="mb-4 p-3 bg-red-50 border border-red-300 rounded-md">
+                <p className="text-red-600 text-sm font-medium">{error}</p>
+            </div>
+        </>
+    )
+}

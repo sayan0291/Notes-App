@@ -16,7 +16,7 @@ const features = [
 export const Hero = () => {
     return(
         <div className="landing-page">
-            <Navbar />
+            <Navbar className="w-[95%] z-30 px-5 py-2 absolute top-5" />
             <Starfield>
                 <FadeUp delay={0.1} className="flex-ic flex-col">
                     <div className="bg-center bg-cover">

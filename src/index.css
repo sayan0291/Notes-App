@@ -85,7 +85,7 @@ body {
   }
 
   span {
-    @apply text-mid-1-green hover:text-green transition-all duration-100c cursor-pointer text-md;
+    @apply text-mid-1-green hover:text-green transition-all duration-100 cursor-pointer text-md;
   }
 
 }
@@ -122,11 +122,11 @@ body {
           @apply px-2 flex-jc-ic flex-col gap-2;
 
           & > h3 {
-            @apply text-toolbar/90 font-serif font-semibold text-lg;
+            @apply text-toolbar font-serif font-semibold text-lg;
           }
 
           & > h4 {
-            @apply text-green font-croissant font-medium text-lg w-[70%] text-center;
+            @apply text-toolbar/70 font-croissant font-medium text-lg w-[70%] text-center;
           }
         }
 
@@ -143,6 +143,15 @@ body {
         }
       }
       
+    }
+
+    .nav-bar{
+      @apply flex-bw-ic;
+
+       .nav-btn {
+        @apply bg-logo text-white px-6 py-3 rounded-xl font-serif shadow hover:bg-violet-500 duration-150 transition-all;
+      }
+
     }
 
   .landing-page {
@@ -170,7 +179,7 @@ body {
   }
 
     .side-bar {
-      @apply font-sans bg-secondary-custom overflow-hidden w-3/5 sx:w-2/5 md:w-1/5 flex flex-col h-full border-thin border-l-0 border-t-0 border-divider;
+      @apply font-sans bg-secondary-custom overflow-hidden w-3/5 sx:w-2/5 md:w-1/5 flex flex-col h-screen border-thin border-l-0 border-t-0 border-divider;
 
       .side-bar-section {
         @apply text-white flex flex-col font-serif;
@@ -196,25 +205,8 @@ body {
       }
     }
 
-    .nav-bar{
-      @apply absolute top-5 flex-bw-ic w-[95%] z-30 px-5 py-2;
-
-       .nav-btn {
-        @apply bg-logo text-white px-6 py-3 rounded-xl font-serif shadow hover:bg-violet-500 duration-150 transition-all;
-      }
-
-      & div{
-        @apply flex font-serif gap-2 transition-colors duration-200 ease-in-out;
-
-        .new-note {
-          @apply text-violet bg-toolbar px-2 py-0.5 rounded-md border border-divider hover:border-thin hover:text-light-violet hover:border-violet;
-        }
-      }
-
-    }
-
     .section{
-      @apply p-6 pt-0 h-full w-full overflow-y-auto;
+      @apply p-6 pt-0 w-full overflow-y-auto;
 
       .section-body{
         @apply columns-1 sx:columns-2 sm:columns-3 lg:columns-4 gap-4;

@@ -1,7 +1,7 @@
 import { useRef,useEffect } from "react";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
-import { createImageUrl } from "../Database/Supabase-client";
+import { createImageUrl } from "../Database/Supabase-client.js";
 
 const toolbarOptions = [
   ["undo", "redo"],
