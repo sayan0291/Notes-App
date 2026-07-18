@@ -16,7 +16,7 @@ export const Logo = ({className1="",className2=""}) => {
     return(
         <>
             <div className={`flex-ic gap-1 text-lg font-medium ${className1}`}>
-                <img src="paper.png" className="w-10" />
+                <img src="/paper.png" className="w-10" />
                 <h1 className={className2}>zenotes</h1>
             </div>
         </>

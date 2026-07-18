@@ -2,6 +2,7 @@ import { Icon } from "../common/Icon.jsx";
 import { TextAlignEnd,X,NotebookText,Library,NotepadText,Pin,Trash2,Tags } from 'lucide-react';
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { Logo } from "./Navbar.jsx";
 
 const sideButton = [
     {id:1,name: "Library",children: [ {id: "all-notes",to: "/library/all-notes",name: "All notes",icon: <NotepadText className="w-4 h-4 sm:w-5 sm:h-5" strokeWidth={1} />},{id: "pinned",to: "/library/pinned",name: "Pinned",icon: <Pin className="w-4 h-4 sm:w-5 sm:h-5" strokeWidth={1} />},{id: "trash",to: "/library/trash",name: "Trash",icon: <Trash2 className="w-4 h-4 sm:w-5 sm:h-5" strokeWidth={1} />} ]},
@@ -13,6 +14,9 @@ export const SideBar = () => {
 
     return (
         <div className={`${open ? "flex" : "hidden" } side-bar`}>
+            <div className="flex-ic p-2">
+                <Logo className1="text-white" />
+            </div>
             <div className="side-bar-section" >
                 {sideButton.map((item) => {
                     return (
@@ -32,7 +36,7 @@ export const SideBar = () => {
                                             </Icon>): (
                                             <div className="points" style={{background: btn.color}} />
                                         )}
-                                        <span to={btn.to}>{btn.name}</span>
+                                        <h2 to={btn.to}>{btn.name}</h2>
                                     </NavLink>
                                 ))}
                             </div>

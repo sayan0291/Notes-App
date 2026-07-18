@@ -95,7 +95,7 @@ body {
 }
 
 @utility flex-jc-ic{
-  @apply flex justify-center items-center p-5;
+  @apply flex justify-center items-center;
 }
 
 @utility flex-jc{
