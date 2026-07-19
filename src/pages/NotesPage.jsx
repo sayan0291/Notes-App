@@ -1,4 +1,3 @@
-import Button from "../components/common/Button.jsx"
 import { SectionHeader } from "../components/common/SectionHeader.jsx"
 
 const notes = [
@@ -25,7 +24,7 @@ function NoteCard({ title, description }) {
   );
 }
 
-export const AllNotes = () => {
+export const NotesPage = () => {
   return (
     <div className="bg-[#121212] section">
       <SectionHeader sectiontitle="All Notes" />

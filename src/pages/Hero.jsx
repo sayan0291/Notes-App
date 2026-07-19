@@ -53,7 +53,7 @@ export const Hero = () => {
                 ))}
             </div>
             <FadeUp className="bg-mint rounded-lg w-[79%] flex-jc-ic mb-4">
-                <div className="flex-jc-ic flex-col gap-3">
+                <div className="flex-jc-ic p-5 flex-col gap-3">
                     <h5 className="font-croissant text-toolbar">Start your journey to organized thoughts today.</h5>
                     <Button varient="joinBtn" >
                         <NavLink to="/register" >Join Now</NavLink>
@@ -61,7 +61,7 @@ export const Hero = () => {
                 </div>
             </FadeUp>
             <footer className="border-thin border-l-0 border-r-0 border-b-0 border-toolbar/20 w-[100%]">
-                <div className="w-[100%] flex-jc-ic bg-yellow/20">
+                <div className="w-[100%] flex-jc-ic p-5 bg-yellow/20">
                     <Logo />
                 </div>
             </footer>

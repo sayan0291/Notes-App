@@ -1,15 +1,19 @@
-import { ArrowDownUp } from "lucide-react"
+import { PlusIcon } from "lucide-react"
 import Button from "./Button.jsx"
+
+import DropdownMenuRadioGroupDemo from "./DropdownMenu.jsx"
 
 export const SectionHeader = ({sectiontitle}) => {
     return(
         <>
             <div className="section-header">
                 <h2 className="text-md text-tertiary">{sectiontitle}</h2>
-                <Button varient="filterBtn">
-                    <ArrowDownUp className="w-4 h-4 sm:w-5 sm:h-5" size={18} strokeWidth={1.5} />
-                    <p className="hidden md:block text-md text-tertiary">Date</p>
-                </Button>
+                <div className="flex-ic gap-2">
+                    <DropdownMenuRadioGroupDemo />
+                    <Button variant="outline" size="icon" className="bg-white rounded-3xl" >
+                        <PlusIcon />
+                    </Button>
+                </div>
             </div>
         </>
     )
