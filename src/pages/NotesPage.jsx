@@ -1,19 +1,6 @@
 import { SectionHeader } from "../components/common/SectionHeader.jsx"
-
-const notes = [
-  { title: "Api useEffect", description: "Fetch data inside useEffect to avoid render issues." },
-  { title: "Sabarmati report", description: " Complete the report before the deadline.Complete the report before the deadline.Complete the report before the deadline.Complete the report before the deadline.Complete the report before the deadline.Complete the report before the deadline.Complete the report before the deadline." },
-  { title: "Multiplication table", description: "Write a loop from 1 to 10 and print each result." },
-  { title: "React", description: "A JavaScript library for building user interfaces." },
-  { title: "List style none", description: "Use list-style-type: none to remove bullet points." },
-  { title: "Heapsort", description: "A comparison-based sorting algorithm using a binary heap." },
-  { title: "Api useEffect", description: "Fetch data inside useEffect to avoid render issues." },
-  { title: "Sabarmati report", description: "Complete the report before the deadline." },
-  { title: "Multiplication table", description: "Write a loop from 1 to 10 and print each result." },
-  { title: "React", description: "A JavaScript library for building user interfaces." },
-  { title: "List style none", description: "Use list-style-type: none to remove bullet points." },
-  { title: "Heapsort", description: "A comparison-based sorting algorithm using a binary heap." },
-];
+import dataHandle from "../data/dataHandle.js"
+import { useEffect, useState } from "react";
 
 function NoteCard({ title, description }) {
   return (
@@ -24,7 +11,14 @@ function NoteCard({ title, description }) {
   );
 }
 
-export const NotesPage = () => {
+export default function NotesPage({data}) {
+  const [notes,setNotes] = useState([]);
+
+  useEffect(() => {
+    console.log(notes)
+    setNotes(dataHandle(data))
+  },[data])
+
   return (
     <div className="bg-[#121212] section">
       <SectionHeader sectiontitle="All Notes" />
