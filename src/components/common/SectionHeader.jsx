@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom"
 import { PlusIcon } from "lucide-react"
 import Button from "./Button.jsx"
 
@@ -10,9 +11,11 @@ export const SectionHeader = ({sectiontitle}) => {
                 <h2 className="text-md text-tertiary">{sectiontitle}</h2>
                 <div className="flex-ic gap-2">
                     <DropdownMenuRadioGroupDemo />
-                    <Button variant="outline" size="icon" className="bg-white rounded-3xl" >
-                        <PlusIcon />
-                    </Button>
+                    <NavLink to='/editor'>
+                        <Button variant="outline" size="icon" className="bg-white rounded-3xl" >
+                            <PlusIcon />
+                        </Button>
+                    </NavLink>
                 </div>
             </div>
         </>

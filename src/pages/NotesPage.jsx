@@ -21,7 +21,7 @@ export default function NotesPage({data}) {
 
   return (
     <div className="bg-[#121212] section">
-      <SectionHeader sectiontitle="All Notes" />
+      <SectionHeader sectiontitle={data} />
       <div className="section-body">
         {notes.map((note, i) => (
           <NoteCard key={i} title={note.title} description={note.description} />

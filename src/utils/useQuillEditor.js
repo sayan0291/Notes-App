@@ -21,6 +21,7 @@ const toolbarOptions = [
   [{ 'align': [] }],
 
   ['clean'],
+  ['save']
 ];
 
 const tooltipMapping = [
@@ -49,6 +50,7 @@ const tooltipMapping = [
   { selector: '.ql-font', title: 'Font Style' },
   { selector: '.ql-align', title: 'Text Alignment' },
   { selector: '.ql-clean', title: 'Clear Formatting' },
+  { selector: '.ql-save', title: 'Save' },
 ];
 
 async function handleImage(model,quillRef) {
@@ -105,7 +107,9 @@ async function handleImage(model,quillRef) {
                 return;
             }
 
-            const publicImageUrl = await createImageUrl(file)
+            const user_id = "051a467f-b6e9-4e5e-82f6-3543ad09702c";
+
+            const publicImageUrl = await createImageUrl(file,user_id)
             if (!publicImageUrl) {
                 alert("Failed to upload image");
                 return;
@@ -144,6 +148,8 @@ export function useQuillEditor({onChange,model}) {
 
         icons.folder = "name";
 
+        icons.save = "💾"
+
         quillRef.current = new Quill(containerRef.current,{
             theme: "snow",
             modules: {
@@ -158,7 +164,10 @@ export function useQuillEditor({onChange,model}) {
                         },
                         image: async () => {
                             await handleImage(modelRef.current,quillRef);
-                        }
+                        },
+                        // save: async () => {
+                        //     await 
+                        // }
                     }
                 },
                 history: {
