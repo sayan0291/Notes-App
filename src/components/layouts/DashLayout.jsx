@@ -5,10 +5,12 @@ import { SideBar } from "../shared/SideBar"
 export const DashLayout = () => {
     return(
         <>
-            <div>
-                <div className="flex">
+            <div className="h-screen overflow-hidden">
+                <div className="flex h-full">
                     <SideBar />
-                    <Outlet />
+                    <main className="min-w-0 flex-1 overflow-y-auto">
+                        <Outlet />
+                    </main>
                 </div>
             </div>
         </>

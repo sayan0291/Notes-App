@@ -33,34 +33,24 @@ export const handleLogin = async ({email,password}) => {
     return data.user;
 }
 
-export const createImageUrl = async (file,user_id) => {
+export const createImageUrl = async (file) => {
     const fileExt = file.name.split('.').pop();
     const fileName = `${crypto.randomUUID()}.${fileExt}`;
-    const filePath = `notes/${fileName}`;
+    const filePath = `public/notes/${fileName}`;
 
-    try {
-        const { error: uploadError } = await supabase.storage
-            .from("post-images")
-            .eq('user_id',user_id)
-            .upload(filePath, file);
+   const { data: uploadData, error: uploadError } = await supabase.storage
+                                                                    .from('post-images')
+                                                                    .upload(filePath, file);
 
-        if (uploadError) {
-            console.error("storage upload error", uploadError);
-            return;
-        }
-    } catch (err) {
-        console.error("storage upload error (unexpected)", err);
-        return;
+    if (uploadError) {
+        console.error("Upload error details:", uploadError);
+        throw uploadError;
     }
 
-    try {
-        const { data } = await supabase.storage
-            .from('post-images')
-            .getPublicUrl(filePath);
+    const { data: urlData } = supabase.storage
+                                        .from('post-images')
+                                        .getPublicUrl(filePath);
 
-        return data.publicUrl;
-    } catch (err) {
-        console.error("public url error", err);
-        return;
-    }
+    return urlData.publicUrl;
 }
+

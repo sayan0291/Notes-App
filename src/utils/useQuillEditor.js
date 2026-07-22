@@ -53,7 +53,78 @@ const tooltipMapping = [
   { selector: '.ql-save', title: 'Save' },
 ];
 
-async function handleImage(model,quillRef) {
+function setupImageDeleteButton(quill) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "quill-image-delete-btn";
+    button.textContent = "Delete";
+    button.setAttribute("aria-label", "Delete image");
+    button.hidden = true;
+
+    let activeImage = null;
+
+    quill.container.appendChild(button);
+
+    const hideButton = () => {
+        activeImage = null;
+        button.hidden = true;
+    };
+
+    const showButton = (imageElement) => {
+        if (!imageElement) return;
+
+        const containerRect = quill.container.getBoundingClientRect();
+        const imageRect = imageElement.getBoundingClientRect();
+
+        activeImage = imageElement;
+        button.hidden = false;
+        button.style.left = `${imageRect.left - containerRect.left + quill.container.scrollLeft}px`;
+        button.style.top = `${imageRect.top - containerRect.top + quill.container.scrollTop - 34}px`;
+    };
+
+    const handleEditorClick = (event) => {
+        if (event.target?.tagName === "IMG") {
+            showButton(event.target);
+            return;
+        }
+
+        if (event.target !== button) {
+            hideButton();
+        }
+    };
+
+    const handleButtonClick = () => {
+        if (!activeImage) return;
+
+        const blot = Quill.find(activeImage);
+        if (!blot) return;
+
+        const index = quill.getIndex(blot);
+        quill.deleteText(index, 1, "user");
+        hideButton();
+    };
+
+    const repositionButton = () => {
+        if (!activeImage || button.hidden) return;
+        showButton(activeImage);
+    };
+
+    quill.root.addEventListener("click", handleEditorClick);
+    quill.container.addEventListener("scroll", repositionButton);
+    button.addEventListener("click", handleButtonClick);
+
+    return {
+        showButton,
+        destroy() {
+            quill.root.removeEventListener("click", handleEditorClick);
+            quill.container.removeEventListener("scroll", repositionButton);
+            button.removeEventListener("click", handleButtonClick);
+            button.remove();
+        },
+    };
+}
+
+async function handleImage(model,quillRef,imageDeleteControls) {
     const input = document.createElement("input");
 
     input.type = "file";
@@ -107,9 +178,8 @@ async function handleImage(model,quillRef) {
                 return;
             }
 
-            const user_id = "051a467f-b6e9-4e5e-82f6-3543ad09702c";
-
-            const publicImageUrl = await createImageUrl(file,user_id)
+            const publicImageUrl = await createImageUrl(file)
+            console.log(publicImageUrl)
             if (!publicImageUrl) {
                 alert("Failed to upload image");
                 return;
@@ -120,6 +190,15 @@ async function handleImage(model,quillRef) {
                 "image",
                 publicImageUrl
             );
+
+            quillRef.current.setSelection(range.index + 1, 0, "silent");
+
+            requestAnimationFrame(() => {
+                const uploadedImage = Array.from(quillRef.current.root.querySelectorAll("img"))
+                    .find((image) => image.src === publicImageUrl);
+
+                imageDeleteControls?.showButton(uploadedImage);
+            });
         } catch (error) {
             console.log(error)
         }
@@ -163,7 +242,7 @@ export function useQuillEditor({onChange,model}) {
                             quillRef.current.history.redo();
                         },
                         image: async () => {
-                            await handleImage(modelRef.current,quillRef);
+                            await handleImage(modelRef.current,quillRef,imageDeleteControls);
                         },
                         // save: async () => {
                         //     await 
@@ -177,6 +256,8 @@ export function useQuillEditor({onChange,model}) {
                 },
             },
         });
+
+        const imageDeleteControls = setupImageDeleteButton(quillRef.current);
 
         const toolbarElement = containerRef.current.previousSibling;
         if (toolbarElement) {
@@ -193,6 +274,7 @@ export function useQuillEditor({onChange,model}) {
         });
 
         return () => {
+            imageDeleteControls.destroy();
             quillRef.current = null;
         };
 
