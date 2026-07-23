@@ -1,7 +1,7 @@
-import { useRef,useEffect } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
-import { createImageUrl } from "../Database/Supabase-client.js";
+import { createImageUrl, supabase } from "../Database/Supabase-client.js";
 
 const toolbarOptions = [
   ["undo", "redo"],
@@ -54,6 +54,7 @@ const tooltipMapping = [
 ];
 
 function setupImageDeleteButton(quill) {
+    const overlayParent = quill.container.parentElement;
     const button = document.createElement("button");
     button.type = "button";
     button.className = "quill-image-delete-btn";
@@ -63,7 +64,7 @@ function setupImageDeleteButton(quill) {
 
     let activeImage = null;
 
-    quill.container.appendChild(button);
+    overlayParent.appendChild(button);
 
     const hideButton = () => {
         activeImage = null;
@@ -73,13 +74,13 @@ function setupImageDeleteButton(quill) {
     const showButton = (imageElement) => {
         if (!imageElement) return;
 
-        const containerRect = quill.container.getBoundingClientRect();
+        const containerRect = overlayParent.getBoundingClientRect();
         const imageRect = imageElement.getBoundingClientRect();
 
         activeImage = imageElement;
         button.hidden = false;
-        button.style.left = `${imageRect.left - containerRect.left + quill.container.scrollLeft}px`;
-        button.style.top = `${imageRect.top - containerRect.top + quill.container.scrollTop - 34}px`;
+        button.style.left = `${imageRect.left - containerRect.left}px`;
+        button.style.top = `${Math.max(imageRect.top - containerRect.top - 34, 8)}px`;
     };
 
     const handleEditorClick = (event) => {
@@ -194,9 +195,10 @@ async function handleImage(model,quillRef,imageDeleteControls) {
             quillRef.current.setSelection(range.index + 1, 0, "silent");
 
             requestAnimationFrame(() => {
-                const uploadedImage = Array.from(quillRef.current.root.querySelectorAll("img"))
-                    .find((image) => image.src === publicImageUrl);
-
+                const [imageBlot] = quillRef.current.getLeaf(range.index);
+                const uploadedImage = imageBlot?.domNode?.tagName === "IMG"
+                    ? imageBlot.domNode
+                    : quillRef.current.root.querySelector(`img[src="${publicImageUrl}"]`);
                 imageDeleteControls?.showButton(uploadedImage);
             });
         } catch (error) {
@@ -205,14 +207,68 @@ async function handleImage(model,quillRef,imageDeleteControls) {
     }
 }
 
-export function useQuillEditor({onChange,model}) {
+export function useQuillEditor({ onChange, model, documentId }) {
     const containerRef = useRef(null);
     const quillRef = useRef(null);
     const modelRef = useRef(null);
+    const documentIdRef = useRef(documentId);
+
+    // "idle" | "saving" | "saved" | "error"
+    const [status, setStatus] = useState("idle");
 
     useEffect(() => {
         modelRef.current = model;
     }, [model]);
+
+    useEffect(() => {
+        documentIdRef.current = documentId;
+    }, [documentId]);
+
+    const saveNow = useCallback(async () => {
+        if (!quillRef.current) return;
+
+        setStatus("saving");
+        const delta = quillRef.current.getContents();
+
+        try {
+            const {
+                data: { user },
+                error: authError,
+            } = await supabase.auth.getUser();
+
+            if (authError || !user) {
+                alert("You must be logged in to save.");
+                setStatus("error");
+                return;
+            }
+
+            const { data, error } = await supabase
+                .from("documents")
+                .upsert(
+                    {
+                        id: documentIdRef.current ?? undefined, // let DB generate one if this is a new doc
+                        user_id: user.id,
+                        content: delta,
+                        updated_at: new Date().toISOString(),
+                    },
+                    { onConflict: "id" }
+                )
+                .select("id")
+                .single();
+
+            if (error) throw error;
+
+            // First save of a brand-new document — remember the generated id
+            if (!documentIdRef.current && data?.id) {
+                documentIdRef.current = data.id;
+            }
+
+            setStatus("saved");
+        } catch (err) {
+            console.error("Save failed:", err);
+            setStatus("error");
+        }
+    }, []);
 
     useEffect(()=>{
         if(!containerRef.current || quillRef.current) return;
@@ -229,6 +285,8 @@ export function useQuillEditor({onChange,model}) {
 
         icons.save = "💾"
 
+        let imageDeleteControls;
+
         quillRef.current = new Quill(containerRef.current,{
             theme: "snow",
             modules: {
@@ -244,9 +302,9 @@ export function useQuillEditor({onChange,model}) {
                         image: async () => {
                             await handleImage(modelRef.current,quillRef,imageDeleteControls);
                         },
-                        // save: async () => {
-                        //     await 
-                        // }
+                        save() {
+                            saveNow();
+                        }
                     }
                 },
                 history: {
@@ -257,7 +315,7 @@ export function useQuillEditor({onChange,model}) {
             },
         });
 
-        const imageDeleteControls = setupImageDeleteButton(quillRef.current);
+        imageDeleteControls = setupImageDeleteButton(quillRef.current);
 
         const toolbarElement = containerRef.current.previousSibling;
         if (toolbarElement) {
@@ -269,6 +327,31 @@ export function useQuillEditor({onChange,model}) {
             });
         }
 
+        // Load existing content once the editor exists (new docs have no id yet)
+        (async () => {
+            if (!documentIdRef.current) return;
+            try {
+                const {
+                    data: { user },
+                } = await supabase.auth.getUser();
+                if (!user) return;
+
+                const { data, error } = await supabase
+                    .from("documents")
+                    .select("content")
+                    .eq("id", documentIdRef.current)
+                    .eq("user_id", user.id)
+                    .single();
+
+                if (error) throw error;
+                if (data?.content) {
+                    quillRef.current.setContents(data.content, "silent");
+                }
+            } catch (err) {
+                console.error("Load failed:", err);
+            }
+        })();
+
         quillRef.current.on("text-change",() => {
             onChange?.(quillRef.current.root.innerHTML);
         });
@@ -278,6 +361,20 @@ export function useQuillEditor({onChange,model}) {
             quillRef.current = null;
         };
 
-    },[onChange])
-    return containerRef;
+    },[onChange, saveNow])
+
+    // Ctrl/Cmd+S triggers save instead of the browser's save dialog
+    useEffect(() => {
+        function handleKeyDown(e) {
+            const isSaveShortcut = (e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s";
+            if (isSaveShortcut) {
+                e.preventDefault();
+                saveNow();
+            }
+        }
+        window.addEventListener("keydown", handleKeyDown);
+        return () => window.removeEventListener("keydown", handleKeyDown);
+    }, [saveNow]);
+
+    return { containerRef, status, saveNow };
 }

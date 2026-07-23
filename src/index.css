@@ -23,25 +23,13 @@ body {
   -ms-overflow-style: none;
 }
 
-.editor .ql-container.ql-snow,
-.editor .ql-editor {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.editor .ql-container.ql-snow::-webkit-scrollbar,
-.editor .ql-editor::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-  display: none;
-}
 
 @theme {
 
   --shadow-sm: 0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04);
   --shadow-md: 0 4px 12px rgba(0,0,0,0.08),0 2px 4px rgba(0,0,0,0.04);
   --shadow-lg: 0 12px 32px rgba(0,0,0,0.10),0 4px 8px rgba(0,0,0,0.06);
-
+  
   --font-angkor: "Angkor", sans-serif;
   --font-saira: "Saira Stencil", sans-serif;
   --font-luckiest: "Luckiest Guy", sans-serif;
@@ -131,27 +119,27 @@ body {
 @layer components{
   .glass-card {
     @apply bg-[rgba(255,255,255,0.7)]  backdrop-blur-[10px] border border-[rgba(243,244,246,1)] shadow-[0px_4px_12px_rgba(0,0,0,0.03)];
-
+    
   }
-
+  
     .reg-log-page {
       @apply flex-jc-ic w-screen h-screen bg-blue/10 gap-4;
 
       .form-page {
         @apply w-full flex-jc font-serif;
-
+        
         .form-desc {
           @apply px-2 flex-jc-ic flex-col gap-2;
-
+          
           & > h3 {
             @apply text-toolbar font-serif font-semibold text-lg;
           }
-
+          
           & > h4 {
             @apply text-toolbar/70 font-croissant font-medium text-lg w-[70%] text-center;
           }
         }
-
+        
         .form-section {
           @apply flex flex-col gap-2 rounded-sm py-5 px-8;
 
@@ -164,21 +152,21 @@ body {
           }
         }
       }
-
+      
     }
 
     .nav-bar{
       @apply flex-bw-ic;
 
-       .nav-btn {
+      .nav-btn {
         @apply bg-logo text-white px-6 py-3 rounded-xl font-serif shadow hover:bg-violet-500 duration-150 transition-all;
       }
-
+      
     }
-
+    
   .landing-page {
     @apply relative min-h-screen flex-jc-ic flex-col bg-[#f9f9ff] p-0;
-
+    
     & h2 {
       @apply font-display font-extrabold text-3xl bg-[#072C50] m-2 px-5 py-3 rounded-sm text-black;
     }
@@ -186,7 +174,7 @@ body {
     & h3 {
       @apply font-serif text-center font-[300] text-lg text-white max-w-[250px] mt-2;
     }
-
+    
     .feature-card {
       @apply p-6 rounded-xl border-none bg-tertiary;
 
@@ -200,7 +188,7 @@ body {
     }
   }
 
-    .side-bar {
+  .side-bar {
       @apply font-sans bg-secondary-custom overflow-hidden w-3/5 sx:w-2/5 md:w-1/5 flex flex-col h-screen border-thin border-l-0 border-t-0 border-divider;
 
       .side-bar-section {
@@ -231,7 +219,7 @@ body {
       @apply p-6 pt-0 w-full overflow-y-auto;
 
       .section-body{
-        @apply columns-1 sx:columns-2 sm:columns-3 lg:columns-4 gap-4;
+        @apply columns-1 sx:columns-2 sm:columns-3 lg:columns-4 gap-4 min-h-screen;
 
         .section-card{
           @apply bg-note-list border border-divider inline-block rounded-md p-4 mb-4 break-inside-avoid;
@@ -297,7 +285,7 @@ body {
       .ql-toolbar.ql-snow button.ql-active {
         @apply bg-[#1c2a3a] text-blue-400;
       }
-
+      
       .ql-toolbar.ql-snow button svg {
         @apply w-[14px] h-[14px] pointer-events-none block;
       }
@@ -316,7 +304,7 @@ body {
         fill: currentColor !important;
         stroke: currentColor !important;
       }
-
+      
       /* active icon colour */
       .ql-toolbar.ql-snow button.ql-active .ql-stroke {
         stroke: currentColor !important;
@@ -326,7 +314,7 @@ body {
       }
 
       /* ══════════════════════════════════════════
-        PICKER WRAPPER
+      PICKER WRAPPER
       ══════════════════════════════════════════ */
       .ql-toolbar.ql-snow .ql-picker {
         @apply text-white h-[26px] relative;
@@ -348,7 +336,7 @@ body {
       .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-label {
         @apply bg-[#1e1e1e] text-blue-400 !border-[#333333];
       }
-
+      
       .ql-toolbar.ql-snow .ql-picker-label .ql-stroke {
         stroke: currentColor !important;
         @apply transition-all duration-[120ms];
@@ -360,11 +348,11 @@ body {
       }
       .ql-toolbar.ql-snow .ql-picker-options {
         @apply absolute top-[calc(100%+4px)] left-0
-              z-[9999] p-[4px]
-              bg-[#1a1a1a] !border !border-[#2a2a2a]
-              shadow-[0_4px_6px_-1px_rgba(0,0,0,0.4),0_10px_30px_-5px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.04)];
+        z-[9999] p-[4px]
+        bg-[#1a1a1a] !border !border-[#2a2a2a]
+        shadow-[0_4px_6px_-1px_rgba(0,0,0,0.4),0_10px_30px_-5px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.04)];
       }
-
+      
       /* ── DROPDOWN ITEMS ── */
       .ql-toolbar.ql-snow .ql-picker-item {
         @apply px-[10px] py-[5px]
@@ -424,10 +412,10 @@ body {
 
       .ql-snow .ql-tooltip a.ql-action {
         @apply text-[#4da3ff] text-[11px] font-medium ml-[8px]
-              no-underline transition-colors duration-100
-              hover:text-[#7dc0ff];
+        no-underline transition-colors duration-100
+        hover:text-[#7dc0ff];
       }
-
+      
       .ql-snow .ql-tooltip a.ql-remove {
         @apply text-[#ff6b6b] text-[11px] font-medium ml-[8px]
               no-underline transition-colors duration-100
@@ -435,7 +423,7 @@ body {
       }
 
       /* ══════════════════════════════════════════
-        EDITOR BODY
+      EDITOR BODY
       ══════════════════════════════════════════ */
       .ql-container.ql-snow {
         @apply !border-none bg-[#111111] min-h-0 flex-1 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none];
@@ -444,17 +432,53 @@ body {
       .ql-container.ql-snow::-webkit-scrollbar {
         display: none;
       }
-
+      
       .ql-editor {
         @apply text-[#d4d4d4] min-h-[320px] text-[14px]
               leading-[1.75] px-[24px] py-[20px] overflow-visible;
         caret-color: #4da3ff;
       }
-
+      
       .ql-editor.ql-blank{
         @apply h-full;
       }
-
+      
+      .editor .ql-container.ql-snow,
+      .editor .ql-editor {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+      
+      .editor .ql-container.ql-snow::-webkit-scrollbar,
+      .editor .ql-editor::-webkit-scrollbar {
+        width: 0;
+        height: 0;
+        display: none;
+      }
+      
+      .editor .quill-image-delete-btn {
+        position: absolute;
+        z-index: 20;
+        border: 1px solid #3a3a3a;
+        border-radius: 6px;
+        background: #1a1a1a;
+        color: #ff9090;
+        padding: 4px 10px;
+        font-size: 12px;
+        line-height: 1.2;
+        cursor: pointer;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+      }
+      
+      .editor .quill-image-delete-btn:hover {
+        background: #2a1515;
+        border-color: #ff6b6b;
+        color: #ffffff;
+      }
+      
+      .editor .quill-image-delete-btn[hidden] {
+        display: none;
+      }
       .ql-editor.ql-blank::before {
         @apply text-[#363636] not-italic;
       }

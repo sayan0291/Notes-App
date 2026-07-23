@@ -8,7 +8,7 @@ export const SectionHeader = ({sectiontitle}) => {
     return(
         <>
             <div className="section-header">
-                <h2 className="text-md text-tertiary">{sectiontitle}</h2>
+                <h2 className="text-md text-tertiary uppercase">{sectiontitle}</h2>
                 <div className="flex-ic gap-2">
                     <DropdownMenuRadioGroupDemo />
                     <NavLink to='/editor'>
