@@ -2,11 +2,7 @@ import { Routes,Route } from "react-router-dom"
 import { MainLayout } from "./components/layouts/MainLayout.jsx"
 import { DashLayout } from "./components/layouts/DashLayout.jsx"
 import { AuthLayout } from "./components/layouts/AuthLayout.jsx"
-import { Hero } from "./pages/Hero.jsx"
-import NotesPage from "./pages/NotesPage.jsx"
-import { Editor } from "./pages/Editor.jsx"
-import { Register } from "./pages/Register.jsx"
-import { Login } from "./pages/Login.jsx"
+import { Hero,NotesPage,Register,Login,Editor } from "./pages";
 
 export default function App(){
 

@@ -1,7 +1,6 @@
 import React, { useContext } from "react"
 import { Trash2 } from "lucide-react"
-import { DeleteData, ReadData } from "../../Form/FormHandler"
-import NotesContext from "../../Context/NotesContext/NotesContext"
+import { deleteData, readData } from "../../Form"
 
 const Display = {
     error: {icon: "border-red-400",background: "from-red-300 to-red-100"},

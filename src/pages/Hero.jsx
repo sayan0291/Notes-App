@@ -1,8 +1,6 @@
-import { motion, AnimatePresence } from "motion/react";
 import { Sparkles,CloudSync,ScanSearch,PenTool } from "lucide-react"
 import { FadeUp, Pulse, PulseNode, SlideSection, Starfield, WordFadeUp } from "../components/animation/Animation"
-import { Logo, Navbar } from "../components/shared/Navbar.jsx"
-import ConnectAnimate from "../components/animation/ConnectAnimate.jsx";
+import { Logo, Navbar } from "../components/shared"
 import { Icon } from "../components/common/Icon.jsx";
 import Button from "../components/common/Button.jsx";
 import { NavLink } from "react-router-dom";

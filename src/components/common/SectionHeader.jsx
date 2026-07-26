@@ -1,8 +1,6 @@
 import { NavLink } from "react-router-dom"
 import { PlusIcon } from "lucide-react"
-import Button from "./Button.jsx"
-
-import DropdownMenuRadioGroupDemo from "./DropdownMenu.jsx"
+import {Button,DropdownMenuRadioGroupDemo} from "../common"
 
 export const SectionHeader = ({sectiontitle}) => {
     return(
