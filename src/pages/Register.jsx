@@ -2,9 +2,8 @@ import { useForm } from "react-hook-form"
 import { useState,useEffect,useRef } from "react";
 import { NavLink,useNavigate } from "react-router-dom";
 import { User,Mail,LockKeyhole } from "lucide-react";
-import { FormCheckBox, FormInput } from "../Form/FormUi.jsx"
-import { Icon } from "../components/common/Icon";
-import Button from "../components/common/Button.jsx";
+import { FormCheckBox, FormInput } from "../Form"
+import { Icon,Button } from "../components/common";
 import { AuthPageLayout } from "../components/layouts/AuthPageLayout.jsx";
 import { handleAuthSubmit } from "../auth/authHandler.jsx";
 
@@ -23,10 +22,6 @@ export const Register = () => {
 
     const navigate = useNavigate();
     const timeRef = useRef(null);
-
-    useRef(() => {
-        return clearTimeout(timeRef.current);
-    },[])
 
     const onSubmit = (data) => {
         handleAuthSubmit({type: "register",data,setSuccess,setError,navigate,timeRef});

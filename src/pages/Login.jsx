@@ -3,9 +3,8 @@ import { useForm } from "react-hook-form"
 import { NavLink, useNavigate } from "react-router-dom"
 import { formInputResource } from "./Register"
 import { AuthPageLayout } from "../components/layouts/AuthPageLayout"
-import { FormInput,FormCheckBox } from "../Form/FormUi.jsx"
-import { Icon } from "../components/common/Icon"
-import Button from "../components/common/Button"
+import { FormInput,FormCheckBox } from "../Form"
+import { Icon,Button } from "../components/common"
 import { handleAuthSubmit } from "../auth/authHandler.jsx"
 
 export const Login = () => {

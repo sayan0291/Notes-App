@@ -1,5 +1,4 @@
 import { useState,useEffect, use } from "react"
-import userContext from "./auth.context"
 import { supabase } from "../../Database/Supabase-client.js"
 import AuthContext from "./auth.context";
 

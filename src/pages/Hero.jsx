@@ -1,9 +1,8 @@
+import { NavLink } from "react-router-dom";
 import { Sparkles,CloudSync,ScanSearch,PenTool } from "lucide-react"
 import { FadeUp, Pulse, PulseNode, SlideSection, Starfield, WordFadeUp } from "../components/animation/Animation"
 import { Logo, Navbar } from "../components/shared"
-import { Icon } from "../components/common/Icon.jsx";
-import Button from "../components/common/Button.jsx";
-import { NavLink } from "react-router-dom";
+import { Icon,Button } from "../components/common";
 
 const features = [
     { id: 1,name: "Clean UI",description: "Zero distractions. An interface that disappears so your ideas can shine.",logo: <Sparkles strokeWidth={1.5} className="text-mid-1-green" />,x: -40,delay: 0.1 },

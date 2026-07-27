@@ -50,6 +50,7 @@ export const createImageUrl = async (file) => {
     const { data: urlData } = supabase.storage
                                         .from('post-images')
                                         .getPublicUrl(filePath);
+    console.log(urlData)
 
     return urlData.publicUrl;
 }
