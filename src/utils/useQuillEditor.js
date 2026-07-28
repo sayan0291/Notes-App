@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, useCallback } from "react";
+import { useRef, useEffect, useState, useCallback, use } from "react";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
 import { createImageUrl, supabase } from "../Database/Supabase-client.js";
@@ -235,6 +235,8 @@ export function useQuillEditor({ onChange, model, documentId }) {
                 data: { user },
                 error: authError,
             } = await supabase.auth.getUser();
+
+            console.log(user)
 
             if (authError || !user) {
                 alert("You must be logged in to save.");

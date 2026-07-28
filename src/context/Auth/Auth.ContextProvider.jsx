@@ -11,7 +11,7 @@ export default function AuthProvider({ children }) {
             const userData = async ()=> {
                     const {data: {userData},error: authError} = await supabase.auth.getUser();
 
-                    if(user) setUser(userData);
+                    if(userData) setUser(userData);
                     setLoading(false);
             }
         } catch (error) {

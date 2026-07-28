@@ -44,6 +44,9 @@ export const SideBar = () => {
                     )
                 })}
             </div>
+            <div className="justify-end">
+                profile
+            </div>
         </div>
     )
 }
