@@ -213,6 +213,9 @@ body {
           }
         }
       }
+      .profile-detail{
+        @apply mt-auto h-[7%] border-1 border-l-0 border-r-0 border-divider p-2 flex-ic;
+      }
     }
 
     .section{

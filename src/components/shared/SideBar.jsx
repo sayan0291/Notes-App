@@ -1,8 +1,9 @@
 import { Icon } from "../common/Icon.jsx";
-import { TextAlignEnd,X,NotebookText,Library,NotepadText,Pin,Trash2,Tags } from 'lucide-react';
+import { TextAlignEnd,X,NotebookText,Library,NotepadText,Pin,Trash2,Tags, CircleUserRound  } from 'lucide-react';
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Logo } from "./Navbar.jsx";
+import useAuth from "../../hooks/useAuth.js"
 
 const sideButton = [
     {id:1,name: "Library",children: [ {id: "all-notes",to: "/library/all-notes",name: "All notes",icon: <NotepadText className="w-4 h-4 sm:w-5 sm:h-5" strokeWidth={1} />},{id: "pinned",to: "/library/pinned",name: "Pinned",icon: <Pin className="w-4 h-4 sm:w-5 sm:h-5" strokeWidth={1} />} ]},
@@ -11,6 +12,8 @@ const sideButton = [
 
 export const SideBar = () => {
     const [open,setOpen] = useState(true);
+    const { user } = useAuth();
+    console.log(user)
 
     return (
         <div className={`${open ? "flex" : "hidden" } side-bar`}>
@@ -44,8 +47,14 @@ export const SideBar = () => {
                     )
                 })}
             </div>
-            <div className="justify-end">
-                profile
+            <div className="profile-detail">
+                <div>
+                    <CircleUserRound className="text-slate/20" strokeWidth={1} />
+                </div>
+                <div>
+                    <h3>{user.name}</h3>
+                    <p>{user.email}</p>
+                </div>
             </div>
         </div>
     )
