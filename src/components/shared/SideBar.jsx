@@ -1,5 +1,5 @@
-import { Icon } from "../common/Icon.jsx";
-import { TextAlignEnd,X,NotebookText,Library,NotepadText,Pin,Trash2,Tags, CircleUserRound  } from 'lucide-react';
+import { Button, Icon } from "../common";
+import { TextAlignEnd,X,NotebookText,Library,NotepadText,Pin,Trash2,Tags, CircleUserRound, Settings, Cog  } from 'lucide-react';
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Logo } from "./Navbar.jsx";
@@ -47,13 +47,16 @@ export const SideBar = () => {
                     )
                 })}
             </div>
-            <div className="profile-detail">
-                <div>
-                    <CircleUserRound className="text-slate/20" strokeWidth={1} />
-                </div>
-                <div>
+            <div class="sidebar-footer">
+                <div class="avatar">{user.name.at(0)}</div>
+                <div class="profile-info">
                     <h3>{user.name}</h3>
                     <p>{user.email}</p>
+                </div>
+                <div class="profile-actions">
+                    <Button varient="profileBtn">
+                        <Cog />
+                    </Button>
                 </div>
             </div>
         </div>

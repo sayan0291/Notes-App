@@ -1,7 +1,7 @@
 const varients = {
     navIcon: "md:hidden block",
     navIcons: "mr-2",
-    userIcon: "p-2 border-[0.5px] bg-card-border rounded-4xl",
+    userIcon: " bg-toolbar/20 rounded-2xl",
     feature: "py-3 px-1",
     formIcon: "text-green"
 }

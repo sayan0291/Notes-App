@@ -205,7 +205,7 @@ body {
           @apply flex flex-col items-start mb-2;
 
           .nav-btn{
-            @apply flex-ic text-tertiary px-4 text-[clamp(8px,1.3vw,13px)] transition-colors duration-150 hover:text-tertiary-change hover:bg-toolbar w-full p-1;
+            @apply flex-ic text-tertiary px-4 text-[clamp(8px,1.3vw,13px)] transition-colors duration-150 hover:text-tertiary-change hover:bg-toolbar/60 w-full p-1;
 
             .points {
               @apply h-2 w-2 rounded-4xl mx-2;
@@ -213,8 +213,26 @@ body {
           }
         }
       }
-      .profile-detail{
-        @apply mt-auto h-[7%] border-1 border-l-0 border-r-0 border-divider p-2 flex-ic;
+      .sidebar-footer{
+        @apply mt-auto border-1 border-l-0 border-r-0 border-divider px-2 py-1 flex-ic gap-2 bg-toolbar/30 font-serif;
+
+        .avatar {
+          @apply h-10 w-10 rounded-3xl font-bold text-lg flex-jc-ic border-1 text-blue uppercase;
+        }
+        .profile-info{
+          @apply flex-1 min-w-0;
+
+          & > h3 {
+            @apply text-lg font-medium text-white capitalize overflow-hidden whitespace-nowrap font-serif;
+          }
+          & > p {
+            @apply text-md font-light text-mint overflow-hidden;
+          }
+        }
+
+        .profile-actions {
+          @apply flex gap-1 shrink-0;
+        }
       }
     }
 
