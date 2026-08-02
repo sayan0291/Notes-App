@@ -13,7 +13,6 @@ const sideButton = [
 export const SideBar = () => {
     const [open,setOpen] = useState(true);
     const { user } = useAuth();
-    console.log(user)
 
     return (
         <div className={`${open ? "flex" : "hidden" } side-bar`}>
@@ -47,13 +46,13 @@ export const SideBar = () => {
                     )
                 })}
             </div>
-            <div class="sidebar-footer">
-                <div class="avatar">{user.name.at(0)}</div>
-                <div class="profile-info">
+            <div className="sidebar-footer">
+                <div className="avatar">{user.name.at(0)}</div>
+                <div className="profile-info">
                     <h3>{user.name}</h3>
                     <p>{user.email}</p>
                 </div>
-                <div class="profile-actions">
+                <div className="profile-actions">
                     <Button varient="profileBtn">
                         <Cog />
                     </Button>

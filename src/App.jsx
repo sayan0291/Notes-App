@@ -1,18 +1,35 @@
-import { Routes,Route } from "react-router-dom"
+import { Routes,Route, Navigate } from "react-router-dom"
+import { AuthProvider } from "./context/Auth"
 import { MainLayout } from "./components/layouts/MainLayout.jsx"
 import { DashLayout } from "./components/layouts/DashLayout.jsx"
 import { AuthLayout } from "./components/layouts/AuthLayout.jsx"
 import { Hero,NotesPage,Register,Login,Editor } from "./pages";
+import useAuth from "./hooks/useAuth.js";
+import { Loader } from "./components/common";
+
+function ProtectedRoute({children}) {
+  const { loading,user } = useAuth();
+  if(loading) return <Loader />
+  if(!user) return <Navigate to='/login' />
+
+  return children;
+}
+
+function DashUser({children}) {
+  const { user } = useAuth();
+  if(!user) return null;
+  return children;
+}
 
 export default function App(){
 
   return(
-    <>
+    <AuthProvider>
       <Routes>
-          <Route element={<MainLayout />} >
+          <Route element={<DashUser><MainLayout /></DashUser>} >
             <Route path="/" element={<Hero />} />
           </Route>
-          <Route element={<DashLayout />}>
+          <Route element={<ProtectedRoute><DashLayout /></ProtectedRoute>}>
             <Route path="/library/all-notes" element={<NotesPage data="allnote" />} />
             <Route path="/library/pinned" element={<NotesPage data="pincheck" />} />
             <Route path="/tags/work" element={<NotesPage data="work" />} />
@@ -26,6 +43,6 @@ export default function App(){
           <Route path="/login" element={<Login />} />
         </Route>
       </Routes>
-    </>
+    </AuthProvider>
   )
 }

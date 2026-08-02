@@ -7,6 +7,8 @@ export default function AuthProvider({ children }) {
     const [loading,setLoading] =useState(true);
 
     useEffect(()=>{
+        let timeoutId;
+
         const fetchUser = async () => {
             try {
                 const { data: { user }, error: authError } = await supabase.auth.getUser();
@@ -22,25 +24,27 @@ export default function AuthProvider({ children }) {
             } catch (error) {
                 console.error("Unable to get the user data:", error);
             } finally {
-                setLoading(false);
+                timeoutId = setTimeout(() => setLoading(false), 3000);
             }
         };
 
         fetchUser();
+
+        return () => clearTimeout(timeoutId);
     },[])
 
     const login = async () => {
         try {
-            const userData = async ()=> {
-                    const {data: {userData},error: authError} = await supabase.auth.getUser();
+            const { data: { user: userData }, error: authError } = await supabase.auth.getUser();
 
-                    if(user) setUser(userData);
-                    setLoading(false);
-            }
+            if (authError) throw authError;
+            if (userData) setUser(userData);
         } catch (error) {
-            console.log("login data error",error)
+            console.log("login data error", error);
+        } finally {
+            setLoading(false);
         }
-    }
+    };
     const logout = () => {
         setUser(null);
     }
