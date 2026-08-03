@@ -15,7 +15,6 @@ export default function NotesPage({data}) {
   const [notes,setNotes] = useState([]);
 
   useEffect(() => {
-    console.log(notes)
     setNotes(dataHandle(data))
   },[data])
 
