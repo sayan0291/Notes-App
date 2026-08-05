@@ -3,6 +3,7 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
+@import "tailwind-scrollbar-hide/v4";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -477,8 +478,10 @@ body {
         display: none;
       }
       
-      .editor .quill-image-delete-btn {
+      .editor .quill-image-delete-btn-show {
         position: absolute;
+        right: 0;
+        top: 15;
         z-index: 20;
         border: 1px solid #3a3a3a;
         border-radius: 6px;
@@ -491,13 +494,13 @@ body {
         box-shadow: 0 8px 24px rgba(0,0,0,0.35);
       }
       
-      .editor .quill-image-delete-btn:hover {
+      .editor .quill-image-delete-btn-show:hover {
         background: #2a1515;
         border-color: #ff6b6b;
         color: #ffffff;
       }
       
-      .editor .quill-image-delete-btn[hidden] {
+      .editor .quill-image-delete-btn-show[hidden] {
         display: none;
       }
       .ql-editor.ql-blank::before {

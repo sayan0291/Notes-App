@@ -1,5 +1,6 @@
 import { Routes,Route, Navigate } from "react-router-dom"
 import { AuthProvider } from "./context/Auth"
+import { NotesContextProvider } from "./context/notesContext"
 import { MainLayout } from "./components/layouts/MainLayout.jsx"
 import { DashLayout } from "./components/layouts/DashLayout.jsx"
 import { AuthLayout } from "./components/layouts/AuthLayout.jsx"
@@ -29,7 +30,7 @@ export default function App(){
           <Route element={<DashUser><MainLayout /></DashUser>} >
             <Route path="/" element={<Hero />} />
           </Route>
-          <Route element={<ProtectedRoute><DashLayout /></ProtectedRoute>}>
+          <Route element={<ProtectedRoute><NotesContextProvider><DashLayout /></NotesContextProvider></ProtectedRoute>}>
             <Route path="/library/all-notes" element={<NotesPage data="allnote" />} />
             <Route path="/library/pinned" element={<NotesPage data="pincheck" />} />
             <Route path="/tags/work" element={<NotesPage data="work" />} />

@@ -57,7 +57,7 @@ function setupImageDeleteButton(quill) {
     const overlayParent = quill.container.parentElement;
     const button = document.createElement("button");
     button.type = "button";
-    button.className = "quill-image-delete-btn";
+    button.className = "quill-image-delete-btn-show";
     button.textContent = "Delete";
     button.setAttribute("aria-label", "Delete image");
     button.hidden = true;

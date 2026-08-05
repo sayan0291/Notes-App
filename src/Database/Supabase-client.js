@@ -36,7 +36,7 @@ export const handleLogin = async ({email,password}) => {
 export const createImageUrl = async (file) => {
     const fileExt = file.name.split('.').pop();
     const fileName = `${crypto.randomUUID()}.${fileExt}`;
-    const filePath = `public/notes/${fileName}`;
+    const filePath = `public/${fileName}`;
 
    const { data: uploadData, error: uploadError } = await supabase.storage
                                                                     .from('post-images')
@@ -55,3 +55,12 @@ export const createImageUrl = async (file) => {
     return urlData.publicUrl;
 }
 
+export const Notes = async (userId) => {
+    const {data,error} = await supabase
+                                .from("documents")
+                                .select('*')
+                                .eq("user_id",userId)
+    
+    if(error) throw error;
+    return data;
+}
