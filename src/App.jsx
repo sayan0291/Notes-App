@@ -38,6 +38,7 @@ export default function App(){
             <Route path="/tags/ideas" element={<NotesPage data="ideas" />} />
             <Route path="/tags/study" element={<NotesPage data="study" />} />
             <Route path="/editor"  element={<Editor />} />
+            <Route path="/editor/:documentId" element={<Editor />} />
           </Route>
         <Route element={<AuthLayout />}>
           <Route path="/register" element={<Register />} />

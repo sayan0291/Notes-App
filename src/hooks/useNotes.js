@@ -1,8 +1,8 @@
 import { useContext } from "react";
-import NotesContextProvider from "../context/notesContext/Notes.ContextProvider.jsx"
+import NotesContext from "../context/notesContext/notes.context.js"
 
 export default function useNotes() {
-    const context = useContext(NotesContextProvider)
+    const context = useContext(NotesContext)
     if(!context) {
         throw new Error("useContext must be used inside NotesContextProvider")
     }
