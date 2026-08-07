@@ -14,7 +14,7 @@ export default function NotesContxtProvider({children}) {
 
         try {
             setLoading(true);
-            const notesDocuments = await Notes(user.id);
+            const notesDocuments = await Notes(user.user_id);
             setDocuments(notesDocuments);
         } catch (error) {
             console.log("Notes Error",error);
