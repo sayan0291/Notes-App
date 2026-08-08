@@ -1,7 +1,6 @@
-import { notes } from "../../data/dataHandle"
+export default function tagsSorting(documents = [], tag) {
 
-export default function tagsSorting(tag) {
-    const sortedNotes = notes.filter((e) => e.tags === tag).map(obj => {
+    const sortedNotes = documents.filter((e) => e.tags?.includes(tag)).map(obj => {
         return obj;
     })
 

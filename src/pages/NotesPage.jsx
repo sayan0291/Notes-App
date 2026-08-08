@@ -2,6 +2,7 @@ import { useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { SectionHeader } from "../components/common/SectionHeader.jsx";
 import useNotes from "../hooks/useNotes.js";
+import dataHandle from "../data/dataHandle.js";
 
 function deltaToPreview(content) {
   let delta = content;
@@ -34,7 +35,7 @@ function NoteCard({ note }) {
     >
       <h3>{note.title || "Untitled"}</h3>
 
-      {note.tags?.length > 0 && (
+      {note?.length > 0 && (
         <div className="section-card-tags">
           {note.tags.map((tag) => (
             <span key={tag}>{tag}</span>
@@ -50,16 +51,9 @@ function NoteCard({ note }) {
 }
 
 export default function NotesPage({data}) {
-  const { documents, loading, refreshDocuments } = useNotes();
-
-  useEffect(() => {
-    refreshDocuments();
-  }, [refreshDocuments]);
-
-  const notes = useMemo(() => {
-    if (data === "allnote" || data === "pincheck") return documents;
-    return documents.filter((note) => note.tags?.includes(data));
-  }, [data, documents]);
+  const { documents, loading } = useNotes();
+  
+  const notes = dataHandle(data, documents);
 
   return (
     <div className="bg-[#121212] section">
