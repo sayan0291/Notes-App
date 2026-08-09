@@ -3,6 +3,7 @@ import { Sparkles,CloudSync,ScanSearch,PenTool } from "lucide-react"
 import { FadeUp, Pulse, PulseNode, SlideSection, Starfield, WordFadeUp } from "../components/animation/Animation"
 import { Logo, Navbar } from "../components/shared"
 import { Icon,Button } from "../components/common";
+import useAuth from "../hooks/useAuth.js"
 
 const features = [
     { id: 1,name: "Clean UI",description: "Zero distractions. An interface that disappears so your ideas can shine.",logo: <Sparkles strokeWidth={1.5} className="text-mid-1-green" />,x: -40,delay: 0.1 },
@@ -11,6 +12,8 @@ const features = [
 ]
 
 export const Hero = () => {
+    const { user } = useAuth();
+
     return(
         <div className="landing-page">
             <Navbar className="w-[95%] z-30 px-5 py-2 absolute top-5" />
@@ -49,14 +52,18 @@ export const Hero = () => {
                     </FadeUp>
                 ))}
             </div>
-            <FadeUp className="bg-mint rounded-lg w-[79%] flex-jc-ic mb-4">
-                <div className="flex-jc-ic p-5 flex-col gap-3">
-                    <h5 className="font-croissant text-toolbar">Start your journey to organized thoughts today.</h5>
-                    <Button varient="joinBtn" >
-                        <NavLink to="/register" >Join Now</NavLink>
-                    </Button>
-                </div>
-            </FadeUp>
+            {
+                !user ? (
+                    <FadeUp className="bg-mint rounded-lg w-[79%] flex-jc-ic mb-4">
+                        <div className="flex-jc-ic p-5 flex-col gap-3">
+                            <h5 className="font-croissant text-toolbar">Start your journey to organized thoughts today.</h5>
+                            <Button varient="joinBtn" >
+                                <NavLink to="/register" >Join Now</NavLink>
+                            </Button>
+                        </div>
+                    </FadeUp>
+                ) : ""
+            }
             <footer className="border-thin border-l-0 border-r-0 border-b-0 border-toolbar/20 w-[100%]">
                 <div className="w-[100%] flex-jc-ic p-5 bg-yellow/20">
                     <Logo />

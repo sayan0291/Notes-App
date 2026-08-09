@@ -1,13 +1,18 @@
-import { Icon } from "../common/Icon"
-import Button from "../common/Button.jsx"
+import { Icon,Button } from "../common"
 import { NavLink } from "react-router-dom"
+import useAuth from "../../hooks/useAuth";
+import { LayoutDashboard } from "lucide-react"
 
 export const Navbar = ({className=""}) => {
+    const { user } = useAuth();
     
     return(
         <div className={`nav-bar ${className}`}>
             <Logo className2="text-white" />
-            <NavLink className="nav-btn" to="/register" >Getting Started</NavLink>
+            {
+                !user ? (<NavLink className="nav-btn" to="/register" >Getting Started</NavLink>) : 
+                        (<NavLink className="text-white" to="/library/all-notes"><LayoutDashboard /></NavLink>)
+            }
         </div>
     )
 }

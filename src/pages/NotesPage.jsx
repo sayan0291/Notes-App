@@ -1,8 +1,10 @@
-import { useEffect, useMemo } from "react";
+import { Pin } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { SectionHeader } from "../components/common/SectionHeader.jsx";
 import useNotes from "../hooks/useNotes.js";
 import dataHandle from "../data/dataHandle.js";
+import { useEffect, useState } from "react";
+import { dataFilterNewest, dataFilterOldest } from "../lib/filter/dataFilter.js";
 
 function deltaToPreview(content) {
   let delta = content;
@@ -25,19 +27,50 @@ function deltaToPreview(content) {
 
 function NoteCard({ note }) {
   const navigate = useNavigate();
+  const { togglePinned } = useNotes();
   const preview = deltaToPreview(note.content);
+  const isPinned = note.pinned === true;
+
+
+  const handlePinClick = async (event) => {
+    event.stopPropagation();
+
+    try {
+      await togglePinned(note.id, !isPinned);
+    } catch (error) {
+      console.error("Pin update failed:", error);
+    }
+  };
 
   return (
-    <button
+    <article
       className="section-card"
       onClick={() => navigate(`/editor/${note.id}`)}
-      type="button"
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          navigate(`/editor/${note.id}`);
+        }
+      }}
+      role="button"
+      tabIndex={0}
     >
-      <h3>{note.title || "Untitled"}</h3>
+      <div className="section-card-header">
+        <h3>{note.title || "Untitled"}</h3>
+        <button
+          aria-label={isPinned ? "Unpin note" : "Pin note"}
+          className={`section-card-pin ${isPinned ? "section-card-pin-active" : ""}`}
+          onClick={handlePinClick}
+          title={isPinned ? "Unpin note" : "Pin note"}
+          type="button"
+        >
+          <Pin size={15} fill={isPinned ? "currentColor" : "none"} />
+        </button>
+      </div>
 
       {note?.length > 0 && (
         <div className="section-card-tags">
-          {note.tags.map((tag) => (
+          {note.map((tag) => (
             <span key={tag}>{tag}</span>
           ))}
         </div>
@@ -46,18 +79,30 @@ function NoteCard({ note }) {
       <p className="section-card-preview">
         {preview || "No content yet."}
       </p>
-    </button>
+    </article>
   );
 }
 
 export default function NotesPage({data}) {
+  const [newestData,setNewestData] = useState("oldest");
+  const [allNotes,setAllNotes] = useState([])
+
   const { documents, loading } = useNotes();
   
   const notes = dataHandle(data, documents);
 
+  useEffect(() => {
+    if (newestData === "oldest") {
+      setAllNotes(dataFilterOldest(notes))
+    }
+    if(newestData === "newest") {
+     setAllNotes(dataFilterNewest(notes))
+    }
+  },[newestData])
+
   return (
     <div className="bg-[#121212] section">
-      <SectionHeader sectiontitle={data} />
+      <SectionHeader sectiontitle={data} setNewestData={setNewestData} />
       <div className="section-body">
         {loading && <p className="section-empty">Loading documents...</p>}
         {!loading && notes.length === 0 && (

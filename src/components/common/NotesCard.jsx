@@ -60,17 +60,3 @@ export const Card = ({notesObj,setShowEditSection}) => {
   );
 }
 
-export const NotesCard = () => {
-
-  const {notedetails,notes} = useContext(NotesContext);
-
-  return(
-    <>
-      <div className="">
-          <div>
-            <p className="text-black">{notedetails.title}</p>
-          </div>
-      </div>
-    </>
-  )
-}

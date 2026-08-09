@@ -49,6 +49,12 @@ const tooltipMapping = [
   { selector: '.ql-save', title: 'Save' },
 ];
 
+function normalizeTags(tags) {
+    if (Array.isArray(tags)) return tags;
+    if (!tags) return [];
+    return [tags];
+}
+
 function setupImageDeleteButton(quill) {
     const overlayParent = quill.container.parentElement;
     const button = document.createElement("button");
@@ -191,11 +197,14 @@ export function useQuillEditor({ onChange, model, documentId, autosaveDelay = 20
 
     const [title, setTitle] = useState("Untitled");
     const [tags, setTags] = useState([]);
+    const [pinned, setPinned] = useState(false);
     const titleRef = useRef(title);
     const tagsRef = useRef(tags);
+    const pinnedRef = useRef(pinned);
 
     useEffect(() => { titleRef.current = title; }, [title]);
     useEffect(() => { tagsRef.current = tags; }, [tags]);
+    useEffect(() => { pinnedRef.current = pinned; }, [pinned]);
     useEffect(() => { modelRef.current = model; }, [model]);
     useEffect(() => { documentIdRef.current = documentId; }, [documentId]);
 
@@ -212,7 +221,8 @@ export function useQuillEditor({ onChange, model, documentId, autosaveDelay = 20
         setStatus("saving");
         const delta = quillRef.current.getContents();
         const finalTitle = overrides.title ?? titleRef.current;
-        const finalTags = overrides.tags ?? tagsRef.current;
+        const finalTags = normalizeTags(overrides.tags ?? tagsRef.current);
+        const finalPinned = overrides.pinned ?? pinnedRef.current;
 
         try {
             const {
@@ -235,6 +245,7 @@ export function useQuillEditor({ onChange, model, documentId, autosaveDelay = 20
                         content: delta,
                         title: finalTitle.trim() || "Untitled",
                         tags: finalTags,
+                        pinned: finalPinned,
                         updated_at: new Date().toISOString(),
                     },
                     { onConflict: "id" }
@@ -313,7 +324,7 @@ export function useQuillEditor({ onChange, model, documentId, autosaveDelay = 20
 
                 const { data, error } = await supabase
                     .from("documents")
-                    .select("content, title, tags")
+                    .select("content, title, tags, pinned")
                     .eq("id", documentIdRef.current)
                     .eq("user_id", user.id)
                     .single();
@@ -324,7 +335,8 @@ export function useQuillEditor({ onChange, model, documentId, autosaveDelay = 20
                     quillRef.current.setContents(data.content, "silent");
                 }
                 if (data?.title) setTitle(data.title);
-                if (data?.tags) setTags(data.tags);
+                setTags(normalizeTags(data?.tags));
+                setPinned(data?.pinned === true);
             } catch (err) {
                 console.error("Load failed:", err);
             }
@@ -370,7 +382,12 @@ export function useQuillEditor({ onChange, model, documentId, autosaveDelay = 20
         },
         tags,
         setTags: (value) => {
-            setTags(value);
+            setTags(normalizeTags(value));
+            setStatus("unsaved");
+        },
+        pinned,
+        setPinned: (value) => {
+            setPinned(value);
             setStatus("unsaved");
         },
         documentId: documentIdRef.current,

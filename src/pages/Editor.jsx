@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Plus, Save, X } from "lucide-react";
+import { Pin, Plus, Save, X } from "lucide-react";
 import { useParams } from "react-router-dom";
 import useNSFW from "../hooks/useNSFW.js";
 import { useQuillEditor } from "../utils/useQuillEditor.js";
@@ -10,7 +10,7 @@ export const Editor = ({ documentId }) => {
     const params = useParams();
     const activeDocumentId = documentId ?? params.documentId;
     const { model, loading, error: scannerError } = useNSFW();
-    const { containerRef, status, saveNow, title, setTitle, tags, setTags } =
+    const { containerRef, status, saveNow, title, setTitle, tags, setTags, pinned, setPinned } =
         useQuillEditor({ documentId: activeDocumentId, model });
 
     const [selectedTag, setSelectedTag] = useState(TAG_OPTIONS[0]);
@@ -41,7 +41,7 @@ export const Editor = ({ documentId }) => {
     const addTag = () => {
         const tag = selectedTag.trim();
         if (tag && !tags.includes(tag)) {
-            setTags([...tags, tag]);
+            setTags([tag]);
         }
     };
 
@@ -106,6 +106,15 @@ export const Editor = ({ documentId }) => {
                     <span className={`editor-save-status editor-save-status-${status}`}>
                         {statusLabel}
                     </span>
+                    <button
+                        aria-label={pinned ? "Unpin note" : "Pin note"}
+                        className={`editor-pin-button ${pinned ? "editor-pin-button-active" : ""}`}
+                        onClick={() => setPinned(!pinned)}
+                        title={pinned ? "Unpin note" : "Pin note"}
+                        type="button"
+                    >
+                        <Pin size={16} fill={pinned ? "currentColor" : "none"} />
+                    </button>
                     <button
                         className="editor-save-button"
                         disabled={status === "saving"}

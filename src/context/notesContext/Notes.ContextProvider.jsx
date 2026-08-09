@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Notes } from "../../Database/Supabase-client.js";
+import { Notes, updateNotePinned } from "../../Database/Supabase-client.js";
 import useAuth from "../../hooks/useAuth.js";
 import NotesContext from "./notes.context.js"
 
@@ -9,8 +9,14 @@ export default function NotesContextProvider({children}) {
 
     const { user } = useAuth();
 
-    const fetchDocuments = async () => {
-            if(!user) return;
+    const fetchDocuments = useCallback(async () => {
+            if(!user) {
+                setDocuments([]);
+                setLoading(false);
+                return;
+            }
+
+            setLoading(true);
             try {
                 const notesDocuments = await Notes(user.user_id)
                 setDocuments(notesDocuments);
@@ -20,15 +26,43 @@ export default function NotesContextProvider({children}) {
             } finally {
                 setLoading(false);
             }
-    }
+    }, [user])
+
+    const togglePinned = useCallback(async (noteId, nextPinned) => {
+        if (!user) return;
+
+        const previousDocuments = documents;
+        setDocuments((currentDocuments) =>
+            currentDocuments.map((note) =>
+                note.id === noteId ? { ...note, pinned: nextPinned } : note
+            )
+        );
+
+        try {
+            const updatedNote = await updateNotePinned({
+                noteId,
+                userId: user.user_id,
+                pinned: nextPinned,
+            });
+
+            setDocuments((currentDocuments) =>
+                currentDocuments.map((note) =>
+                    note.id === noteId ? { ...note, ...updatedNote } : note
+                )
+            );
+        } catch (error) {
+            setDocuments(previousDocuments);
+            throw error;
+        }
+    }, [documents, user]);
 
     useEffect(() => {
 
         fetchDocuments();
-    },[])
+    },[fetchDocuments])
 
     return (
-        <NotesContext.Provider value={{ documents, loading }}>
+        <NotesContext.Provider value={{ documents, loading, togglePinned }}>
             {children}
         </NotesContext.Provider>
     )

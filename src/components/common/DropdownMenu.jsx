@@ -13,8 +13,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-export default function DropdownMenuRadioGroupDemo() {
+export default function DropdownMenuRadioGroupDemo({setDataFilter}) {
   const [position, setPosition] = React.useState("newest")
+
+  React.useEffect(()=>{
+    setDataFilter(position)
+  },[position])
 
   return (
     <DropdownMenu>

@@ -64,3 +64,16 @@ export const Notes = async (userId) => {
     if(error) throw error;
     return data;
 }
+
+export const updateNotePinned = async ({ noteId, userId, pinned }) => {
+    const { data, error } = await supabase
+        .from("documents")
+        .update({ pinned })
+        .eq("id", noteId)
+        .eq("user_id", userId)
+        .select("*")
+        .single();
+
+    if (error) throw error;
+    return data;
+}

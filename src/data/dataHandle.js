@@ -9,8 +9,10 @@ export default function dataHandle(data,documents) {
     }else if(data==="allnote"){
         return documents;
     }
-    else{
-        const sortedNotes = tagsSorting(documents)
+    else if(["work", "personal", "ideas", "study"].includes(data)){
+        const sortedNotes = tagsSorting(documents,data)
         return sortedNotes;
     }
+
+    return [];
 }
