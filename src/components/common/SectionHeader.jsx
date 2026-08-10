@@ -1,11 +1,14 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { NavLink } from "react-router-dom"
 import { PlusIcon } from "lucide-react"
 import {Button,DropdownMenuRadioGroupDemo} from "../common"
 
-export const SectionHeader = ({sectiontitle}) => {
+export const SectionHeader = ({sectiontitle,setFilter}) => {
 
     const [dataFilter,setDataFilter] = useState();
+    useEffect(() => {
+        setFilter(dataFilter)
+    },[dataFilter])
 
     return(
         <>

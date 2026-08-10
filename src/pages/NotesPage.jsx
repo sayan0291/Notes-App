@@ -84,7 +84,7 @@ function NoteCard({ note }) {
 }
 
 export default function NotesPage({data}) {
-  const [newestData,setNewestData] = useState("oldest");
+  const [filter,setFilter] = useState("newest");
   const [allNotes,setAllNotes] = useState([])
 
   const { documents, loading } = useNotes();
@@ -92,23 +92,23 @@ export default function NotesPage({data}) {
   const notes = dataHandle(data, documents);
 
   useEffect(() => {
-    if (newestData === "oldest") {
+    if (filter === "oldest") {
       setAllNotes(dataFilterOldest(notes))
     }
-    if(newestData === "newest") {
+    if(filter === "newest") {
      setAllNotes(dataFilterNewest(notes))
     }
-  },[newestData])
+  },[data,filter])
 
   return (
     <div className="bg-[#121212] section">
-      <SectionHeader sectiontitle={data} setNewestData={setNewestData} />
+      <SectionHeader sectiontitle={data} setFilter={setFilter} />
       <div className="section-body">
         {loading && <p className="section-empty">Loading documents...</p>}
         {!loading && notes.length === 0 && (
           <p className="section-empty">No documents found.</p>
         )}
-        {!loading && notes.map((note) => (
+        {!loading && allNotes.map((note) => (
           <NoteCard key={note.id} note={note} />
         ))}
       </div>
