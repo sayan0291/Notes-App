@@ -1,0 +1,3 @@
+{
+    "rewrites": [{"soource":"/(.*)","destination":"/index.html"}]
+}
