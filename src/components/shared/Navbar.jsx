@@ -8,10 +8,10 @@ export const Navbar = ({className=""}) => {
     
     return(
         <div className={`nav-bar ${className}`}>
-            <Logo className2="text-white" />
+            <Logo className2="text-mid-1-green" />
             {
                 !user ? (<NavLink className="nav-btn" to="/register" >Getting Started</NavLink>) : 
-                        (<NavLink className="text-white" to="/library/all-notes"><LayoutDashboard /></NavLink>)
+                        (<NavLink className="text-mid-green" to="/library/all-notes"><LayoutDashboard strokeWidth={1} /></NavLink>)
             }
         </div>
     )

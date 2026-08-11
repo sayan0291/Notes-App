@@ -169,11 +169,11 @@ body {
     @apply relative min-h-screen flex-jc-ic flex-col bg-[#f9f9ff] p-0;
     
     & h2 {
-      @apply font-display font-extrabold text-3xl bg-[#072C50] m-2 px-5 py-3 rounded-sm text-black;
+      @apply font-croissant font-extrabold text-3xl m-2 px-5 py-3 rounded-sm text-black;
     }
 
     & h3 {
-      @apply font-serif text-center font-[300] text-lg text-white max-w-[250px] mt-2;
+      @apply font-serif text-center font-[300] text-lg text-green max-w-[550px] mt-2;
     }
     
     .feature-card {

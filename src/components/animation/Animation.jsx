@@ -37,45 +37,41 @@ export const ScrollBar = ({containerRef}) => {
     )
 }
 
-export const PulseNode = ({ color = "#818cf8", speed = 2.4 ,area }) => {
+export const PulseNode = ({ color = "#10b981", speed = 2.4, area, className2,rad=796 }) => {
   return (
-    <div className={`flex ${area} items-center justify-center`}>
-      {/* Core dot */}
-      <div className="w-2.5 h-2.5 rounded-full z-10"
-           style={{ background: color }} />
-
-      {/* 3 expanding rings — stagger with delay */}
+    // Parent container acts as the exact coordinate anchor center point
+    <div className={`absolute w-0 h-0 ${area || ""} ${className2}`}>
+      
+      {/* 3 expanding rings */}
       {[0, 0.6, 1.2].map((delay, i) => (
         <motion.div
           key={i}
           className="absolute rounded-full border"
-          style={{
-            top: "50%",
-            left: "50%",
+          style={{ 
             borderColor: color,
-            marginTop: -5,
-            marginLeft: -5,
+            top: 0,
+            left: 0,
+            // x and y handle smooth, sub-pixel centering without rendering glitch
+            x: "-50%", 
+            y: "-50%" 
           }}
-          initial={{ width: 10,  height: 10,  opacity: 0.8,
-                     marginTop: -5,  marginLeft: -5 }}
-          animate={{ width: 52,  height: 52,  opacity: 0,
-                     marginTop: -26, marginLeft: -26 }}
-          transition={{ duration: speed, delay,
-                        repeat: Infinity, ease: "easeOut" }}
+          initial={{ width: 10, height: 10, opacity: 2 }}
+          animate={{ width: rad, height: rad, opacity: 0 }}
+          transition={{ duration: speed, delay, repeat: Infinity, ease: "easeOut" }}
         />
       ))}
     </div>
   );
-}
+};
 
 
-export const Pulse = () => {
+export const Pulse = ({className2}) => {
     return(
         <>
             <motion.div
                 animate={{ opacity: [0.4, 1, 0.4] }}
                 transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                className="w-2 h-2 rounded-full bg-green"
+                className={`w-3 h-3 rounded-full ${className2}`}
             />
         </>
     )
@@ -115,88 +111,6 @@ export function WordFadeUp({
           {word}
         </motion.span>
       ))}
-    </div>
-  );
-}
-
-export function SlideSection({children,x,delay=0.5}) {
-
-  return(
-    <motion.div
-        initial= {{opacity:0,x,y:-10}}
-        whileInView={{opacity:1,x:0,y:0}}
-        viewport={{once: false ,amount: 0.25}}
-        transition={{
-            duration: 0.5,
-            delay: delay,
-            ease: [0.16, 1, 0.3, 1]
-        }}
-    >
-        {children}
-    </motion.div>
-  )
-}
-
-
-// Generates a random box-shadow string of N tiny "stars" scattered across
-// a fieldWidth x fieldHeight area. Used to drive the twinkling starfield.
-function makeStarShadows(count, fieldWidth, fieldHeight) {
-  let shadows = [];
-  for (let i = 0; i < count; i++) {
-    const x = Math.floor(Math.random() * fieldWidth);
-    const y = Math.floor(Math.random() * fieldHeight);
-    shadows.push(`${x}px ${y}px #fff`);
-  }
-  return shadows.join(", ");
-}
-
-function StarLayer({ count, size, duration, fieldHeight = 2000, fieldWidth = 2000 }) {
-  // Two copies of the same star pattern stacked vertically let the
-  // upward scroll loop seamlessly forever.
-  const shadow = useMemo(
-    () => makeStarShadows(count, fieldWidth, fieldHeight),
-    [count, fieldWidth, fieldHeight]
-  );
-
-  const dotStyle = {
-    width: `${size}px`,
-    height: `${size}px`,
-    background: "transparent",
-    boxShadow: shadow,
-    animation: `star-scroll ${duration}s linear infinite`,
-  };
-
-  return (
-    <>
-      <div className="absolute top-0 left-0" style={dotStyle} />
-      <div
-        className="absolute left-0"
-        style={{ ...dotStyle, top: `${fieldHeight}px` }}
-      />
-    </>
-  );
-}
-
-export const Starfield = ({ children }) => {
-  return (
-    <div className="relative h-screen w-full overflow-hidden bg-[radial-gradient(ellipse_at_bottom,_#1b2735_0%,_#090a0f_100%)]">
-      <style>{`
-        @keyframes star-scroll {
-          from { transform: translateY(0); }
-          to { transform: translateY(-2000px); }
-        }
-        @keyframes intro-fade-up {
-          0% { opacity: 0; transform: translateY(30px); }
-          100% { opacity: 1; transform: translateY(0); }
-        }
-      `}</style>
-
-      <StarLayer count={300} size={1} duration={50} />
-      <StarLayer count={200} size={2} duration={100} />
-      <StarLayer count={100} size={3} duration={150} />
-        <div className="flex-jc-ic h-full">
-          {children}
-        </div>
     </div>
   );
 }

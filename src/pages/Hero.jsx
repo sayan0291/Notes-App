@@ -1,14 +1,14 @@
 import { NavLink } from "react-router-dom";
 import { Sparkles,CloudSync,ScanSearch,PenTool } from "lucide-react"
-import { FadeUp, Pulse, PulseNode, SlideSection, Starfield, WordFadeUp } from "../components/animation/Animation"
+import { FadeUp, Pulse, PulseNode, WordFadeUp } from "../components/animation/Animation"
 import { Logo, Navbar } from "../components/shared"
 import { Icon,Button } from "../components/common";
 import useAuth from "../hooks/useAuth.js"
 
 const features = [
-    { id: 1,name: "Clean UI",description: "Zero distractions. An interface that disappears so your ideas can shine.",logo: <Sparkles strokeWidth={1.5} className="text-mid-1-green" />,x: -40,delay: 0.1 },
-    { id: 2,name: "Cloud Sync",description: "Your notes, everywhere. Sync seamlessly across all your devices in real-time.",logo: <CloudSync strokeWidth={1.5} className="text-mid-1-green" />,x: 0,delay: 0.5 },
-    { id: 3,name: "Smart Search",description: "Find anything instantly. Intelligent indexing helps you locate ideas in seconds.",logo: <ScanSearch strokeWidth={1.5} className="text-mid-1-green" />,x: 40,delay: 0.2 },
+    { id: 1,name: "Clean UI",description: "Zero distractions. An interface that disappears so your ideas can shine.",logo: <Sparkles strokeWidth={1} className="text-mid-1-green" />,x: -40,delay: 0.1 },
+    { id: 2,name: "Cloud Sync",description: "Your notes, everywhere. Sync seamlessly across all your devices in real-time.",logo: <CloudSync strokeWidth={1} className="text-mid-1-green" />,x: 0,delay: 0.5 },
+    { id: 3,name: "Smart Search",description: "Find anything instantly. Intelligent indexing helps you locate ideas in seconds.",logo: <ScanSearch strokeWidth={1} className="text-mid-1-green" />,x: 40,delay: 0.2 },
 ]
 
 export const Hero = () => {
@@ -17,16 +17,21 @@ export const Hero = () => {
     return(
         <div className="landing-page">
             <Navbar className="w-[95%] z-30 px-5 py-2 absolute top-5" />
-            <Starfield>
-                <FadeUp delay={0.1} className="flex-ic flex-col">
-                    <div className="bg-center bg-cover">
-                        <img src="sticky-note.png" alt="desktop note" className="h-70" />
-                    </div>
-                    <h2>Capture thoughts, find focus.</h2>
-                    <h3>The minimalist note-taking app designed for clarity.</h3>
+            <div className="relative h-screen w-full flex-jc-ic flex-col overflow-hidden">
+                <div className="bg-mint/10 rounded-4xl p-2 gap-2 border-[0.01px] border-mint/90 flex-jc-ic w-[15%]">
+                    <Pulse className2="bg-mint" />
+                    <p className="font-serif text-green">create your notes</p>
+                </div>
+                <FadeUp className="flex-jc-ic flex-col">
+                    <h2>Clarity in a world of clutter.</h2>
+                    <h3>ZenNotes provides a distraction-free, minimalist environment for your deepest thoughts and most important work. Designed for focus.</h3>
                 </FadeUp>
-            </Starfield>
-            <div className="mb-stack-lg py-3">
+                <PulseNode className2="top-[0%] left-[0%]" color="#10b981" speed={2.4} />
+                <PulseNode className2="top-[20%] right-[0%]" color="#10b981" speed={2.4} />
+                <PulseNode className2="bottom-[20%] left-[20%]" color="#10b981" speed={2.4} rad={200} />
+                <PulseNode className2="bottom-[15%] right-[30%]" color="#10b981" speed={2.4} rad={100} />
+            </div>
+            <div className="mb-stack-lg relative overflow-hidden py-3">
                 <FadeUp className="w-full aspect-[4/3] overflow-hidden p-4 rounded-xl glass-card">
                     <img className="w-full h-full rounded-lg bg-cover bg-center" src="desktop-image.png" alt="desk image" />
                 </FadeUp>

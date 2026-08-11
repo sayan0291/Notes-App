@@ -1,7 +1,8 @@
 import { useRef, useEffect, useState, useCallback } from "react";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
-import { createImageUrl, supabase } from "../Database/Supabase-client.js";
+import { createImageUrl, saveDocument, getDocument } from "../Database/Supabase-client.js";
+import useAuth from "../hooks/useAuth.js";
 
 const toolbarOptions = [
   ["undo", "redo"],
@@ -186,6 +187,7 @@ async function handleImage(model, quillRef, imageDeleteControls) {
 }
 
 export function useQuillEditor({ onChange, model, documentId, autosaveDelay = 2000 }) {
+    const { user } = useAuth();
     const containerRef = useRef(null);
     const quillRef = useRef(null);
     const modelRef = useRef(null);
@@ -225,35 +227,16 @@ export function useQuillEditor({ onChange, model, documentId, autosaveDelay = 20
         const finalPinned = overrides.pinned ?? pinnedRef.current;
 
         try {
-            const {
-                data: { user },
-                error: authError,
-            } = await supabase.auth.getUser();
+            if (!user) return;
 
-            if (authError || !user) {
-                alert("You must be logged in to save.");
-                setStatus("error");
-                return;
-            }
-
-            const { data, error } = await supabase
-                .from("documents")
-                .upsert(
-                    {
-                        id: documentIdRef.current ?? undefined,
-                        user_id: user.id,
-                        content: delta,
-                        title: finalTitle.trim() || "Untitled",
-                        tags: finalTags,
-                        pinned: finalPinned,
-                        updated_at: new Date().toISOString(),
-                    },
-                    { onConflict: "id" }
-                )
-                .select("id")
-                .single();
-
-            if (error) throw error;
+            const data = await saveDocument({
+                id: documentIdRef.current,
+                userId: user.id,
+                content: delta,
+                title: finalTitle.trim() || "Untitled",
+                tags: finalTags,
+                pinned: finalPinned,
+            });
 
             if (!documentIdRef.current && data?.id) {
                 documentIdRef.current = data.id;
@@ -319,17 +302,9 @@ export function useQuillEditor({ onChange, model, documentId, autosaveDelay = 20
         (async () => {
             if (!documentIdRef.current) return;
             try {
-                const { data: { user } } = await supabase.auth.getUser();
                 if (!user) return;
 
-                const { data, error } = await supabase
-                    .from("documents")
-                    .select("content, title, tags, pinned")
-                    .eq("id", documentIdRef.current)
-                    .eq("user_id", user.id)
-                    .single();
-
-                if (error) throw error;
+                const data = await getDocument({ id: documentIdRef.current, userId: user.id });
 
                 if (data?.content) {
                     quillRef.current.setContents(data.content, "silent");

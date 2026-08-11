@@ -50,7 +50,6 @@ export const createImageUrl = async (file) => {
     const { data: urlData } = supabase.storage
                                         .from('post-images')
                                         .getPublicUrl(filePath);
-    console.log(urlData)
 
     return urlData.publicUrl;
 }
@@ -75,5 +74,38 @@ export const updateNotePinned = async ({ noteId, userId, pinned }) => {
         .single();
 
     if (error) throw error;
+    return data;
+}
+
+export const saveDocument = async ({id,userId,content,title,tags,pinned}) => {
+    const { data,error } = await supabase
+                                    .from('documents')
+                                    .upsert(
+                                        {
+                                            id: id ?? undefined,
+                                            user_id: userId,
+                                            content,
+                                            title,
+                                            tags,
+                                            pinned,
+                                            updated_at: new Date().toISOString()
+                                        },
+                                        { onConflict: "id" }
+                                    )
+                                    .select('id')
+                                    .single()
+    if(error) throw error;
+    return data;
+}
+
+export const getDocument = async () => {
+    const { data,error } = await supabase
+                                    .from('documents')
+                                    .select("content,title,tags,pinned")
+                                    .eq("id",id)
+                                    .eq("user_id",userId)
+                                    .single()
+
+    if(error) throw error;
     return data;
 }

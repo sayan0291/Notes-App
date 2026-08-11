@@ -47,15 +47,15 @@ export const SideBar = () => {
                 })}
             </div>
             <div className="sidebar-footer">
-                <div className="avatar">{user.name.at(0)}</div>
+                <div className="avatar">{user?.name?.at(0)}</div>
                 <div className="profile-info">
                     <h3>{user.name}</h3>
                     <p>{user.email}</p>
                 </div>
                 <div className="profile-actions">
-                    <Button varient="profileBtn">
+                    <NavLink className="w-10 h-10 rounded-sm bg-transparent border border-divider flex-jc-ic cursor-pointer text-tertiary transition-background duration-150 hover:bg-secondary-custom hover:text-tertiary/90" to="/settings" >
                         <Cog />
-                    </Button>
+                    </NavLink>
                 </div>
             </div>
         </div>

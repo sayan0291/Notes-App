@@ -1,58 +1,90 @@
-import { useState,useEffect, use } from "react"
-import { Notes, supabase,userProfile } from "../../Database/Supabase-client.js"
+import { useState, useEffect, useCallback } from "react";
+import { supabase, userProfile } from "../../Database/Supabase-client.js";
 import AuthContext from "./auth.context";
 
 export default function AuthProvider({ children }) {
-    const [user,setUser] = useState([]);
-    const [loading,setLoading] =useState(true);
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-    useEffect(()=>{
-        let timeoutId;
+    // Fetches the profile row for a given auth user and syncs it into state.
+    // Always resolves to either a profile object or null — never leaves
+    // `user` in an inconsistent shape.
+    const syncUser = useCallback(async (authUser) => {
+        if (!authUser) {
+            setUser(null);
+            return;
+        }
 
-        const fetchUser = async () => {
+        try {
+            const profile = await userProfile(authUser.id);
+            setUser(profile ?? null);
+        } catch (error) {
+            console.error("Unable to load user profile:", error);
+            setUser(null);
+        }
+    }, []);
+
+    useEffect(() => {
+        let isMounted = true;
+
+        // Resolve the initial session on first load (handles page refresh)
+        const init = async () => {
             try {
-                const { data: { user }, error: authError } = await supabase.auth.getUser();
-
-                if (authError) throw authError;
-
-                const profile = await userProfile(user.id)
-
-                if(!profile) throw "Something went wrong";
-                
-                if (profile) setUser(profile);
-            
+                const { data: { user: authUser }, error } = await supabase.auth.getUser();
+                if (error) throw error;
+                if (isMounted) await syncUser(authUser);
             } catch (error) {
                 console.error("Unable to get the user data:", error);
+                if (isMounted) setUser(null);
             } finally {
-                timeoutId = setTimeout(() => setLoading(false), 3000);
+                if (isMounted) setLoading(false);
             }
         };
 
-        fetchUser();
+        init();
 
-        return () => clearTimeout(timeoutId);
-    },[])
+        // Single source of truth going forward: react to real auth events
+        // (SIGNED_IN, SIGNED_OUT, TOKEN_REFRESHED, USER_UPDATED, etc.)
+        const { data: listener } = supabase.auth.onAuthStateChange(
+            async (_event, session) => {
+                if (!isMounted) return;
+                await syncUser(session?.user ?? null);
+                setLoading(false);
+            }
+        );
 
-    const login = async () => {
-        try {
-            const { data: { user: userData }, error: authError } = await supabase.auth.getUser();
+        return () => {
+            isMounted = false;
+            listener.subscription.unsubscribe();
+        };
+    }, [syncUser]);
 
-            if (authError) throw authError;
-            if (userData) setUser(userData);
-        } catch (error) {
-            console.log("login data error", error);
-        } finally {
+    // login/logout/register only trigger the Supabase action.
+    // They never call setUser directly — onAuthStateChange handles that,
+    // so there's no way for local state to drift from the real session.
+
+    const login = async ({ email, password }) => {
+        setLoading(true);
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) {
             setLoading(false);
+            throw error;
         }
+        // setLoading(false) happens in the onAuthStateChange handler above
     };
-    const logout = () => {
-        setUser(null);
-    }
 
-    const value = { user,loading,login,logout };
-    return(
+    const logout = async () => {
+        const { error } = await supabase.auth.signOut();
+        if (error) console.error("Logout error:", error);
+        localStorage.clear();
+        // setUser(null) happens automatically via the SIGNED_OUT event
+    };
+
+    const value = { user, loading, login, logout };
+
+    return (
         <AuthContext.Provider value={value}>
             {children}
         </AuthContext.Provider>
-    )
+    );
 }

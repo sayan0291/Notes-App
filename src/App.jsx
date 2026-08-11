@@ -4,7 +4,7 @@ import { NotesContextProvider } from "./context/notesContext"
 import { MainLayout } from "./components/layouts/MainLayout.jsx"
 import { DashLayout } from "./components/layouts/DashLayout.jsx"
 import { AuthLayout } from "./components/layouts/AuthLayout.jsx"
-import { Hero,NotesPage,Register,Login,Editor } from "./pages";
+import { Hero,NotesPage,Register,Login,Editor,Settings } from "./pages";
 import useAuth from "./hooks/useAuth.js";
 import { Loader } from "./components/common";
 
@@ -16,18 +16,12 @@ function ProtectedRoute({children}) {
   return children;
 }
 
-function DashUser({children}) {
-  const { user } = useAuth();
-  if(!user) return null;
-  return children;
-}
-
 export default function App(){
 
   return(
     <AuthProvider>
       <Routes>
-          <Route element={<DashUser><MainLayout /></DashUser>} >
+          <Route element={<MainLayout />} >
             <Route path="/" element={<Hero />} />
           </Route>
           <Route element={<ProtectedRoute><NotesContextProvider><DashLayout /></NotesContextProvider></ProtectedRoute>}>
@@ -38,6 +32,7 @@ export default function App(){
             <Route path="/tags/ideas" element={<NotesPage data="ideas" />} />
             <Route path="/tags/study" element={<NotesPage data="study" />} />
             <Route path="/editor"  element={<Editor />} />
+            <Route path="/settings"  element={<Settings />} />
             <Route path="/editor/:documentId" element={<Editor />} />
           </Route>
         <Route element={<AuthLayout />}>

@@ -6,8 +6,7 @@ const varients = {
     toolbarBtn: "bg-transparent transition-colors p-1 text-[#CCCCCC] hover:bg-toolbar-change hover:text-[#888888] duration-250 rounded-md mx-2 border-divider border-[0.01em]",
     userbuttn: "bg-[rgba(0,0,0,0.75)] shadow p-3 rounded-[50%]",
     addbuttn: "bg-red-500 px-5 py-2 rounded-3xl hover:bg-red-400 duration-300",
-    cancelbuttn: "bg-gray-500 px-5 py-2 rounded-3xl hover:bg-gray-400 duration-700",
-    profileBtn: "w-10 h-10 rounded-sm bg-transparent border border-divider flex-jc-ic cursor-pointer text-tertiary transition-background duration-150 hover:bg-secondary-custom hover:text-tertiary/90"
+    cancelbuttn: "bg-gray-500 px-5 py-2 rounded-3xl hover:bg-gray-400 duration-700"
 }
 
 export default function Button({varient="menuBtn",children, ...props}){
