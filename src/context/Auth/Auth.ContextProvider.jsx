@@ -1,10 +1,11 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { supabase, userProfile } from "../../Database/Supabase-client.js";
 import AuthContext from "./auth.context";
 
 export default function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const syncTimeoutRef = useRef(null);
 
     // Fetches the profile row for a given auth user and syncs it into state.
     // Always resolves to either a profile object or null — never leaves
@@ -43,18 +44,25 @@ export default function AuthProvider({ children }) {
 
         init();
 
-        // Single source of truth going forward: react to real auth events
-        // (SIGNED_IN, SIGNED_OUT, TOKEN_REFRESHED, USER_UPDATED, etc.)
+        // Single source of truth going forward: react to real auth events.
+        // Defer Supabase calls outside the auth callback so the auth-token
+        // browser lock can be released before profile loading starts.
         const { data: listener } = supabase.auth.onAuthStateChange(
-            async (_event, session) => {
+            (_event, session) => {
                 if (!isMounted) return;
-                await syncUser(session?.user ?? null);
-                setLoading(false);
+
+                clearTimeout(syncTimeoutRef.current);
+                syncTimeoutRef.current = setTimeout(async () => {
+                    if (!isMounted) return;
+                    await syncUser(session?.user ?? null);
+                    if (isMounted) setLoading(false);
+                }, 0);
             }
         );
 
         return () => {
             isMounted = false;
+            clearTimeout(syncTimeoutRef.current);
             listener.subscription.unsubscribe();
         };
     }, [syncUser]);

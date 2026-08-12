@@ -61,7 +61,7 @@ export const Editor = ({ documentId }) => {
                     <div className="editor-tags">
                         {tags.map((tag) => (
                             <span className="editor-tag" key={tag}>
-                                {tag}
+                                {JSON.parse(tag)[0]}
                                 <button
                                     aria-label={`Remove ${tag} tag`}
                                     className="editor-tag-remove"

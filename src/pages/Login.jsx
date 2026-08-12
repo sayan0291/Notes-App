@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form"
 import { NavLink, useNavigate } from "react-router-dom"
 import { formInputResource } from "./Register"
 import { AuthPageLayout } from "../components/layouts/AuthPageLayout"
-import { FormInput,FormCheckBox } from "../Form"
+import { FormInput } from "../Form"
 import { Icon,Button } from "../components/common"
 import { handleAuthSubmit } from "../auth/authHandler.jsx"
 
@@ -14,12 +14,12 @@ export const Login = () => {
     const navigate = useNavigate();
     const timeRef = useRef(null);
 
-    useRef(() => {
-        return clearTimeout(timeRef.current);
+    useEffect(() => {
+        return () => clearTimeout(timeRef.current);
     },[])
 
-    const onSubmit = (data) => {
-        handleAuthSubmit({type: "login",data,setSuccess,setError,navigate,timeRef});
+    const onSubmit = async (data) => {
+        await handleAuthSubmit({type: "login",data,setSuccess,setError,navigate,timeRef});
     }
 
     const { register,
@@ -55,7 +55,7 @@ export const Login = () => {
                                                 </div>
                         ))
                     }
-                    <Button varient="logBtn" disabled={isSubmitting} >
+                    <Button varient="logBtn" type="submit" disabled={isSubmitting} >
                         {isSubmitting ? "Loading..." : "Log In"}
                     </Button>
                 </form>

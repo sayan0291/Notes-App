@@ -1,7 +1,10 @@
-import { handleRegister,handleLogin,userProfile } from "../Database/Supabase-client";
+import { handleRegister,handleLogin } from "../Database/Supabase-client";
 
 export const handleAuthSubmit = async ({ type, data, navigate, setSuccess ,setError, timeRef }) => {
   try {
+    setError(null);
+    setSuccess(null);
+
     let user;
 
     if (type === "register") {
@@ -10,7 +13,9 @@ export const handleAuthSubmit = async ({ type, data, navigate, setSuccess ,setEr
       user = await handleLogin(data);
     }
 
-    const profile = await userProfile(user.id);
+    if (!user?.id) {
+      throw new Error("Authentication did not return a user.");
+    }
 
     if(type === "register") {
         setSuccess("Account created successfully")
@@ -23,6 +28,6 @@ export const handleAuthSubmit = async ({ type, data, navigate, setSuccess ,setEr
     }, 3000);
 
   } catch (error) {
-    setError(`${type} failed. Try again later.`);
+    setError(error?.message || `${type} failed. Try again later.`);
   }
 };

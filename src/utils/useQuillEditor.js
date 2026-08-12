@@ -56,6 +56,18 @@ function normalizeTags(tags) {
     return [tags];
 }
 
+function normalizeDelta(content) {
+    if (!content) return null;
+    if (typeof content === "string") {
+        try {
+            return JSON.parse(content);
+        } catch {
+            return { ops: [{ insert: content }] };
+        }
+    }
+    return content;
+}
+
 function setupImageDeleteButton(quill) {
     const overlayParent = quill.container.parentElement;
     const button = document.createElement("button");
@@ -186,7 +198,7 @@ async function handleImage(model, quillRef, imageDeleteControls) {
     };
 }
 
-export function useQuillEditor({ onChange, model, documentId, autosaveDelay = 2000 }) {
+export function useQuillEditor({ onChange, model, documentId }) {
     const { user } = useAuth();
     const containerRef = useRef(null);
     const quillRef = useRef(null);
@@ -227,11 +239,14 @@ export function useQuillEditor({ onChange, model, documentId, autosaveDelay = 20
         const finalPinned = overrides.pinned ?? pinnedRef.current;
 
         try {
-            if (!user) return;
+            if (!user) {
+                setStatus("error");
+                return;
+            }
 
             const data = await saveDocument({
                 id: documentIdRef.current,
-                userId: user.id,
+                userId: user.user_id,
                 content: delta,
                 title: finalTitle.trim() || "Untitled",
                 tags: finalTags,
@@ -248,15 +263,6 @@ export function useQuillEditor({ onChange, model, documentId, autosaveDelay = 20
             setStatus("error");
         }
     }, []);
-
-    const scheduleAutosave = useCallback(() => {
-        if (autosaveTimerRef.current) {
-            clearTimeout(autosaveTimerRef.current);
-        }
-        autosaveTimerRef.current = setTimeout(() => {
-            saveNow();
-        }, autosaveDelay);
-    }, [saveNow, autosaveDelay]);
 
     useEffect(() => {
         if (!containerRef.current || quillRef.current) return;
@@ -304,10 +310,10 @@ export function useQuillEditor({ onChange, model, documentId, autosaveDelay = 20
             try {
                 if (!user) return;
 
-                const data = await getDocument({ id: documentIdRef.current, userId: user.id });
+                const data = await getDocument({ id: documentIdRef.current, userId: user.user_id });
 
                 if (data?.content) {
-                    quillRef.current.setContents(data.content, "silent");
+                    quillRef.current.setContents(normalizeDelta(data.content), "silent");
                 }
                 if (data?.title) setTitle(data.title);
                 setTags(normalizeTags(data?.tags));
@@ -323,7 +329,6 @@ export function useQuillEditor({ onChange, model, documentId, autosaveDelay = 20
             // Only react to real user edits, not the silent load above
             if (source === "user") {
                 setStatus("unsaved");
-                scheduleAutosave();
             }
         });
 
@@ -332,7 +337,7 @@ export function useQuillEditor({ onChange, model, documentId, autosaveDelay = 20
             if (autosaveTimerRef.current) clearTimeout(autosaveTimerRef.current);
             quillRef.current = null;
         };
-    }, [onChange, saveNow, scheduleAutosave]);
+    }, [onChange, saveNow, user]);
 
     useEffect(() => {
         function handleKeyDown(e) {
@@ -352,16 +357,20 @@ export function useQuillEditor({ onChange, model, documentId, autosaveDelay = 20
         saveNow,
         title,
         setTitle: (value) => {
+            titleRef.current = value;
             setTitle(value);
             setStatus("unsaved");
         },
         tags,
         setTags: (value) => {
-            setTags(normalizeTags(value));
+            const normalizedTags = normalizeTags(value);
+            tagsRef.current = normalizedTags;
+            setTags(normalizedTags);
             setStatus("unsaved");
         },
         pinned,
         setPinned: (value) => {
+            pinnedRef.current = value;
             setPinned(value);
             setStatus("unsaved");
         },

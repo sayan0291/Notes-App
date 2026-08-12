@@ -98,7 +98,7 @@ export const saveDocument = async ({id,userId,content,title,tags,pinned}) => {
     return data;
 }
 
-export const getDocument = async () => {
+export const getDocument = async ({ id, userId }) => {
     const { data,error } = await supabase
                                     .from('documents')
                                     .select("content,title,tags,pinned")

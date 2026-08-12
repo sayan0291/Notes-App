@@ -23,8 +23,12 @@ export const Register = () => {
     const navigate = useNavigate();
     const timeRef = useRef(null);
 
-    const onSubmit = (data) => {
-        handleAuthSubmit({type: "register",data,setSuccess,setError,navigate,timeRef});
+    useEffect(() => {
+        return () => clearTimeout(timeRef.current);
+    },[])
+
+    const onSubmit = async (data) => {
+        await handleAuthSubmit({type: "register",data,setSuccess,setError,navigate,timeRef});
     }
 
     return(
@@ -64,7 +68,7 @@ export const Register = () => {
                         <p>I agree to the <span>Terms of Service</span> and <span>Privacy Policy</span>.</p>
                     </div>
                     {errors.terms && <p className="text-red-500 text-xs">{errors.terms.message}</p>}
-                    <Button varient="logBtn" disabled={isSubmitting} >
+                    <Button varient="logBtn" type="submit" disabled={isSubmitting} >
                         {isSubmitting ? "Creating..." : "Create Account"}
                     </Button>
                 </form>

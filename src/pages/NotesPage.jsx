@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { SectionHeader } from "../components/common/SectionHeader.jsx";
 import useNotes from "../hooks/useNotes.js";
 import dataHandle from "../data/dataHandle.js";
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import { dataFilterNewest, dataFilterOldest } from "../lib/filter/dataFilter.js";
 
 function deltaToPreview(content) {
@@ -85,20 +85,16 @@ function NoteCard({ note }) {
 
 export default function NotesPage({data}) {
   const [filter,setFilter] = useState("newest");
-  const [allNotes,setAllNotes] = useState([])
 
   const { documents, loading } = useNotes();
   
   const notes = dataHandle(data, documents);
-
-  useEffect(() => {
+  const allNotes = useMemo(() => {
     if (filter === "oldest") {
-      setAllNotes(dataFilterOldest(notes))
+      return dataFilterOldest(notes)
     }
-    if(filter === "newest") {
-     setAllNotes(dataFilterNewest(notes))
-    }
-  },[data,filter])
+    return dataFilterNewest(notes)
+  },[notes,filter])
 
   return (
     <div className="bg-[#121212] section">
