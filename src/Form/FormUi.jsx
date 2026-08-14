@@ -46,7 +46,7 @@ export const FormInput = ({ id,type,placeholder,registerFor,register,error}) => 
     return(
         <>
             <input 
-                className="w-full outline-none placeholder:text-black/30 placeholder:text-md text-sm text-green"
+                className="w-full outline-none placeholder:text-black/30 placeholder:text-lg text-lg text-green"
                 id={id}
                 type={type} 
                 placeholder={placeholder} 

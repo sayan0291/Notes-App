@@ -68,10 +68,10 @@ body {
   --rounded-lg: 12px;
   --rounded-xl: 20px;
 
-  --text-sm: clamp(8px, 1.3vw, 13px);
+  --text-sm: clamp(9px, 1.3vw, 13px);
   --text-md: clamp(9px, 1.4vw, 14px);
   --text-lg: clamp(12px, 1.7vw, 17px);
-  --text-3xl: clamp(25px, 3vw, 30px);
+  --text-3xl: clamp(22px, 3vw, 30px);
 
   --border-width-thin: 0.001em;
   --border-width-thick: 2px;
@@ -160,7 +160,7 @@ body {
       @apply flex-bw-ic;
 
       .nav-btn {
-        @apply bg-logo text-white px-6 py-3 rounded-xl font-serif shadow hover:bg-violet-500 duration-150 transition-all;
+        @apply bg-mid-1-green text-white px-3 py-2 rounded-sm text-md font-serif hover:bg-mid-1-green/90 duration-150 transition-all;
       }
       
     }
@@ -169,7 +169,7 @@ body {
     @apply relative min-h-screen flex-jc-ic flex-col bg-[#f9f9ff] p-0;
     
     & h2 {
-      @apply font-croissant font-extrabold text-3xl m-2 px-5 py-3 rounded-sm text-black;
+      @apply font-croissant font-extrabold text-3xl text-center m-2 px-5 py-3 rounded-sm text-black;
     }
 
     & h3 {
@@ -184,7 +184,7 @@ body {
       }
 
       & small {
-        @apply font-serif font-medium text-sm text-toolbar/70;
+        @apply font-serif font-medium text-sm text-gray-800;
       }
     }
   }

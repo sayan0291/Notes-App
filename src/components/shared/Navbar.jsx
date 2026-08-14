@@ -9,7 +9,7 @@ export const Navbar = ({className=""}) => {
     
     return(
         <div className={`nav-bar ${className}`}>
-            <Logo className2="text-mid-1-green" />
+            <Logo className2="text-gray-600" />
             {
                 !user ? (<NavLink className="nav-btn" to="/register" >Getting Started</NavLink>) : 
                         (<NavLink className="text-mid-green" to="/library/all-notes"><LayoutDashboard strokeWidth={1} /></NavLink>)
