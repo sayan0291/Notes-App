@@ -190,7 +190,7 @@ body {
   }
 
   .side-bar {
-      @apply font-sans bg-secondary-custom overflow-hidden w-3/5 sx:w-2/5 md:w-1/5 flex flex-col h-screen border-thin border-l-0 border-t-0 border-divider;
+      @apply font-sans bg-secondary-custom overflow-hidden flex flex-col h-screen border-thin border-l-0 border-t-0 border-divider;
 
       .side-bar-section {
         @apply text-white flex flex-col font-serif;

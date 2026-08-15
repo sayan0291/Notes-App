@@ -1,6 +1,5 @@
 import { Button, Icon } from "../common";
 import { TextAlignEnd,X,NotebookText,Library,NotepadText,Pin,Trash2,Tags, CircleUserRound, Settings, Cog  } from 'lucide-react';
-import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Logo } from "./Navbar.jsx";
 import useAuth from "../../hooks/useAuth.js"
@@ -10,13 +9,12 @@ const sideButton = [
     {id:2,name: "Tags",children: [{id: "work",to: "/tags/work",name:"Work",color: "#7F77DD"},{id: "personal",to: "/tags/personal",name:"Personal",color: "#1D9E75"},{id: "ideas",to: "/tags/ideas",name:"Ideas",color:"#D85A30"},{id: "study",to: "/tags/study",name:"Study",color: "#378ADD"}]}
 ]
 
-export const SideBar = () => {
-    const [open,setOpen] = useState(true);
+export const SideBar = ({open}) => {
     const { user } = useAuth();
 
     return (
-        <div className={`${open ? "flex" : "hidden" } side-bar`}>
-            <div className="flex-ic p-2">
+        <div className={`${open ? "absolute" : "hidden"} side-bar md:flex`}>
+            <div className="hidden md:flex-ic p-2">
                 <Logo className1="text-white" />
             </div>
             <div className="side-bar-section" >

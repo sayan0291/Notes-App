@@ -5,7 +5,6 @@ import { LayoutDashboard } from "lucide-react"
 
 export const Navbar = ({className=""}) => {
     const { user } = useAuth();
-    console.log(user)
     
     return(
         <div className={`nav-bar ${className}`}>
