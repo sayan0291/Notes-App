@@ -190,7 +190,7 @@ body {
   }
 
   .side-bar {
-      @apply font-sans bg-secondary-custom overflow-hidden flex flex-col h-screen border-thin border-l-0 border-t-0 border-divider;
+      @apply font-sans bg-secondary-custom overflow-hidden flex flex-col h-dvh border-thin border-l-0 border-t-0 border-divider;
 
       .side-bar-section {
         @apply text-white flex flex-col font-serif;
@@ -206,7 +206,7 @@ body {
           @apply flex flex-col items-start mb-2;
 
           .nav-btn{
-            @apply flex-ic text-tertiary px-4 text-[clamp(8px,1.3vw,13px)] transition-colors duration-150 hover:text-tertiary-change hover:bg-toolbar/60 w-full p-1;
+            @apply flex-ic text-tertiary w-full px-4 text-[clamp(8px,1.3vw,13px)] transition-colors duration-150 hover:text-tertiary-change hover:bg-toolbar/60 p-1;
 
             .points {
               @apply h-2 w-2 rounded-4xl mx-2;

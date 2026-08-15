@@ -9,13 +9,28 @@ const sideButton = [
     {id:2,name: "Tags",children: [{id: "work",to: "/tags/work",name:"Work",color: "#7F77DD"},{id: "personal",to: "/tags/personal",name:"Personal",color: "#1D9E75"},{id: "ideas",to: "/tags/ideas",name:"Ideas",color:"#D85A30"},{id: "study",to: "/tags/study",name:"Study",color: "#378ADD"}]}
 ]
 
-export const SideBar = ({open}) => {
+export const SideBar = ({open,setOpen}) => {
     const { user } = useAuth();
 
     return (
-        <div className={`${open ? "absolute" : "hidden"} side-bar md:flex`}>
-            <div className="hidden md:flex-ic p-2">
+        <>
+        <button
+            type="button"
+            aria-label="Close sidebar"
+            onClick={() => setOpen(false)}
+            className={`${open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"} fixed inset-0 z-40 bg-black/55 backdrop-blur-[2px] transition-opacity duration-300 ease-out md:hidden`}
+        />
+        <aside className={`${open ? "translate-x-0 opacity-100 shadow-[24px_0_60px_rgba(0,0,0,0.35)]" : "-translate-x-full opacity-0 shadow-none"} side-bar fixed inset-y-0 left-0 z-50 w-[min(82vw,320px)] transition-[transform,opacity,box-shadow] duration-300 ease-out md:static md:z-auto md:flex md:w-auto md:translate-x-0 md:opacity-100 md:shadow-none`}>
+            <div className="flex-ic justify-between p-2">
                 <Logo className1="text-white" />
+                <button
+                    type="button"
+                    aria-label="Close sidebar"
+                    onClick={() => setOpen(false)}
+                    className="flex-jc-ic h-10 w-10 rounded-[6px] border border-divider text-slate transition-colors duration-150 hover:bg-toolbar hover:text-white md:hidden"
+                >
+                    <X className="h-5 w-5" />
+                </button>
             </div>
             <div className="side-bar-section" >
                 {sideButton.map((item) => {
@@ -29,7 +44,7 @@ export const SideBar = ({open}) => {
                             </div>
                             <div className="child-btn">
                                 {item.children.map((btn) => (
-                                    <NavLink key={btn.id} to={btn.to} className={({isActive}) => isActive ? "bg-toolbar text-tertiary-change nav-btn" : "nav-btn"} >
+                                    <NavLink key={btn.id} to={btn.to} onClick={() => setOpen(false)} className={({isActive}) => isActive ? "bg-toolbar text-tertiary-change nav-btn" : "nav-btn"} >
                                         {btn.icon ? ( 
                                             <Icon varient="navIcons">
                                                 {btn.icon}
@@ -56,6 +71,7 @@ export const SideBar = ({open}) => {
                     </NavLink>
                 </div>
             </div>
-        </div>
+        </aside>
+        </>
     )
 }
