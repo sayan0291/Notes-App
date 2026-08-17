@@ -4,7 +4,7 @@ import { NotesContextProvider } from "./context/notesContext"
 import { MainLayout } from "./components/layouts/MainLayout.jsx"
 import { DashLayout } from "./components/layouts/DashLayout.jsx"
 import { AuthLayout } from "./components/layouts/AuthLayout.jsx"
-import { Hero,NotesPage,Register,Login,Editor,Settings } from "./pages";
+import { Hero,NotesPage,Register,Login,Editor,Settings,NotFound } from "./pages";
 import useAuth from "./hooks/useAuth.js";
 import { Loader } from "./components/common";
 
@@ -19,10 +19,12 @@ function ProtectedRoute({children}) {
 export default function App(){
 
   return(
+    <>
     <AuthProvider>
       <Routes>
           <Route element={<MainLayout />} >
             <Route path="/" element={<Hero />} />
+            <Route path="*" element={<NotFound title="NOT FOUND" number="404" />} />
           </Route>
           <Route element={<ProtectedRoute><NotesContextProvider><DashLayout /></NotesContextProvider></ProtectedRoute>}>
             <Route path="/library/all-notes" element={<NotesPage data="allnote" />} />
@@ -41,5 +43,6 @@ export default function App(){
         </Route>
       </Routes>
     </AuthProvider>
+    </>
   )
 }
