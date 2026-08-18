@@ -24,7 +24,8 @@ export default function App(){
       <Routes>
           <Route element={<MainLayout />} >
             <Route path="/" element={<Hero />} />
-            <Route path="*" element={<NotFound title="NOT FOUND" number="404" />} />
+            <Route path="/not-found" element={<NotFound title="NOT FOUND" number="404" />} />
+            <Route path="*" element={<Navigate to="/not-found" replace />} />
           </Route>
           <Route element={<ProtectedRoute><NotesContextProvider><DashLayout /></NotesContextProvider></ProtectedRoute>}>
             <Route path="/library/all-notes" element={<NotesPage data="allnote" />} />
@@ -37,10 +38,10 @@ export default function App(){
             <Route path="/settings"  element={<Settings />} />
             <Route path="/editor/:documentId" element={<Editor />} />
           </Route>
-        <Route element={<AuthLayout />}>
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-        </Route>
+          <Route element={<AuthLayout />}>
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+          </Route>
       </Routes>
     </AuthProvider>
     </>
